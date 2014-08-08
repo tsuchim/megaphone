@@ -1,0 +1,14 @@
+/*****************************************
+ * MegaPhone API Server in node.js Version 0.1
+ * Megaphone Realtime Emotion Exchange API Version 0.1
+ * Managed by Yuji Tsuchimoto <yuji@eikai.co.jp>
+ *****************************************
+ */
+
+API Command
+
+== common API command
+* swing [magnitude(int)]
+        send swing magnitudes (linear interger)
+* msg [message(string)]
+        send messages like as chat
