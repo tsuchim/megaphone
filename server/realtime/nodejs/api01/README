@@ -8,7 +8,15 @@
 API Command
 
 == common API command
-* swing [magnitude(int)]
+* send swing [magnitude(int)]
         send swing magnitudes (linear interger)
-* msg [message(string)]
+* get total swing 
+        request to push total swing magnitudes (linear interger)
+* send msg [message(string)]
         send messages like as chat
+
+== TRIGGER
+* push swing [magnitude(int)]
+        receive total swing magnitude(int)
+* push msg
+        receive messages
