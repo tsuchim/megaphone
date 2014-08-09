@@ -30,9 +30,10 @@ $(function() {
   socket.on('msg updateDB', function(msg){
     console.log(msg);
   });
-
+  /*
   setInterval( function() {
     socket.emit('get total swing');
   }, 1000 );
+  */
 });
 

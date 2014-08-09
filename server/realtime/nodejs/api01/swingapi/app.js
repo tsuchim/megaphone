@@ -43,6 +43,7 @@ app.listen(3000, function(){
 
 // event loop
 var io = require('socket.io').listen(app);
+io.set('log level', 2);
 // common environment
 var totalSwingMagnitude = 0;
 // connection loop
@@ -75,5 +76,11 @@ io.sockets.on('connection', function (socket) {
 
 // execute intervally
 setInterval( function () {
-  totalSwingMagnitude *= 0.5;
-}, 1000 );
+  var lastMag = 0;
+  var val = Math.round(totalSwingMagnitude);
+  if( val/lastMag < 0.5 || 1.5 < val/lastMag ) {
+    io.sockets.emit('push swing', val );
+    lastMag = totalSwingMagnitude;
+  }
+  totalSwingMagnitude *= 0.9;
+}, 100 );
