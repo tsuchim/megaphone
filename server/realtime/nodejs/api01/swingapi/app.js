@@ -75,12 +75,12 @@ io.sockets.on('connection', function (socket) {
 });
 
 // execute intervally
+var lastEmitMag = 0;
 setInterval( function () {
-  var lastMag = 0;
   var val = Math.round(totalSwingMagnitude);
-  if( val/lastMag < 0.5 || 1.5 < val/lastMag ) {
+  if( val/lastEmitMag < 0.5 || 1.5 < val/lastEmitMag ) {
     io.sockets.emit('push swing', val );
-    lastMag = totalSwingMagnitude;
+    lastEmitMag = totalSwingMagnitude;
   }
   totalSwingMagnitude *= 0.9;
 }, 100 );

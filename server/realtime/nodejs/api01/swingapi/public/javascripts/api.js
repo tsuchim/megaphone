@@ -4,6 +4,7 @@ $(function() {
     console.log('connected');
   });
 
+  // send a chat message
   $('#btn').click(function() {
     var message = $('#message');
     // console.log(message);
@@ -16,10 +17,11 @@ $(function() {
     $('#list').prepend($('<dt>message</dt><dd>' + msg + '</dd>'));
   });
 
+  // send swing magnitude by hand
   $('#swing').click(function() {
-    var magnitude = $('#magnitude');
+    var magnitude = 50;
     // push magnitude command to server
-    socket.emit('send swing', magnitude.val());
+    socket.emit('send swing', magnitude );
   });
   // trigger for receiving msg from server
   socket.on('push swing', function (mag) {
@@ -27,10 +29,19 @@ $(function() {
     $('#ss').html('<dt>盛り上がり度</dt><dd>' + mag + '</dd>');
   });
 
+  // send swing magnitude by sensor
+  window.addEventListener("devicemotion", function(e){
+    var x = e.accelerationIncludingGravity.x;
+    var y = e.accelerationIncludingGravity.y;
+    var z = e.accelerationIncludingGravity.z;
+    var mag = 10 * ( Math.sqrt(x*x + y*y + z*z) - 9.9 );
+    if( 0 < mag ) socket.emit('send swing', mag );
+  }, true);
+
+  /*
   socket.on('msg updateDB', function(msg){
     console.log(msg);
   });
-  /*
   setInterval( function() {
     socket.emit('get total swing');
   }, 1000 );
