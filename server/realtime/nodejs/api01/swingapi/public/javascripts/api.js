@@ -26,7 +26,11 @@ $(function() {
   // trigger for receiving msg from server
   socket.on('push swing', function (mag) {
     //console.log(mag);
-    $('#ss').html('<dt>盛り上がり度</dt><dd>' + mag + '</dd>');
+    $('#swing_number').html(mag);
+    var sp = Math.round(Math.sqrt(mag));
+    if( 100 < sp ) sp = 100;
+    if(   0 > sp ) sp = 0;
+    $('#swing_meter').css('width',sp+'%');
   });
 
   // send swing magnitude by sensor
@@ -34,7 +38,7 @@ $(function() {
     var x = e.accelerationIncludingGravity.x;
     var y = e.accelerationIncludingGravity.y;
     var z = e.accelerationIncludingGravity.z;
-    var mag = 10 * ( Math.sqrt(x*x + y*y + z*z) - 9.9 );
+    var mag = 10 * ( Math.sqrt(x*x + y*y + z*z) - 10 );
     if( 0 < mag ) socket.emit('send swing', mag );
   }, true);
 

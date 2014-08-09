@@ -78,7 +78,7 @@ io.sockets.on('connection', function (socket) {
 var lastEmitMag = 0;
 setInterval( function () {
   var val = Math.round(totalSwingMagnitude);
-  if( val/lastEmitMag < 0.5 || 1.5 < val/lastEmitMag ) {
+  if( val/lastEmitMag < 0.7 || 1.1 < val/lastEmitMag ) {
     io.sockets.emit('push swing', val );
     lastEmitMag = totalSwingMagnitude;
   }
