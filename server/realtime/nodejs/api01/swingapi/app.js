@@ -57,12 +57,12 @@ io.sockets.on('connection', function (socket) {
     socket.broadcast.emit('push msg', msg);
   });
   socket.on('send swing', function (mag) {
-	  totalSwingMagnitude += parseInt(mag);
-    var val = Math.round(totalSwingMagnitude);
+    totalSwingMagnitude += parseInt(mag);
     // echo back 
+    var val = Math.round(totalSwingMagnitude);
     socket.emit('push swing', val );
   });
-  socket.on('get total swing', function () {
+  socket.on('req total swing', function () {
     var val = Math.round(totalSwingMagnitude);
     // echo back 
     socket.emit('push swing', val );

@@ -27,10 +27,11 @@ $(function() {
   socket.on('push swing', function (mag) {
     //console.log(mag);
     $('#swing_number').html(mag);
-    var sp = Math.round(Math.sqrt(mag));
-    if( 100 < sp ) sp = 100;
-    if(   0 > sp ) sp = 0;
-    $('#swing_meter').css('width',sp+'%');
+    var sp = Math.sqrt(mag)/100;
+    if( 1 < sp ) sp = 1;
+    if( 0 > sp ) sp = 0;
+    var wd = parseInt( $("#swing_wrapper").width()*sp );
+    $('#swing_meter').css('width',wd+'px');
   });
 
   // send swing magnitude by sensor

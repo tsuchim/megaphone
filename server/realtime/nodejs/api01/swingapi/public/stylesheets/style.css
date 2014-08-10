@@ -9,6 +9,7 @@ a {
 
 div#swing_wrapper {
   width: 100%;
+  font-size: 21pt;
   height: 32px;
 }
 
@@ -16,7 +17,7 @@ div#swing_meter {
   float: left;
   position: absolute;
   background-color: red;
-  width:50%;
+  width:0%;
   height: 32px;
   z-index: -10;
 }
