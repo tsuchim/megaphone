@@ -59,11 +59,11 @@ io.sockets.on('connection', function (socket) {
   socket.on('send swing', function (mag) {
     totalSwingMagnitude += parseInt(mag);
     // echo back 
-    var val = Math.round(totalSwingMagnitude);
+    var val = Math.round(Math.sqrt(totalSwingMagnitude));
     socket.emit('push swing', val );
   });
   socket.on('req total swing', function () {
-    var val = Math.round(totalSwingMagnitude);
+    var val = Math.round(Math.sqrt(totalSwingMagnitude));
     // echo back 
     socket.emit('push swing', val );
   });
@@ -77,7 +77,7 @@ io.sockets.on('connection', function (socket) {
 // execute intervally
 var lastEmitMag = 0;
 setInterval( function () {
-  var val = Math.round(totalSwingMagnitude);
+  var val = Math.round(Math.sqrt(totalSwingMagnitude));
   if( val/lastEmitMag < 0.7 || 1.1 < val/lastEmitMag ) {
     io.sockets.emit('push swing', val );
     lastEmitMag = totalSwingMagnitude;
