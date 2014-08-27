@@ -3,21 +3,22 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/bubble.js"></script>
-<link rel="STYLESHEET" href="base.css" type="text/css"> 
+<link rel="stylesheet" href="base.css" type="text/css">
 </head>
 <body>
 <script>
 $(function(){
-
-window.document.manager = new bubbleManager( $('#canvas') );
-//manager.addBubble();
-
+    var manager = $('#canvas').bubbleManager({
+        max: 100,
+        value: '#countForm',
+        button: '#button'
+    });
 });
 </script>
-<input type='text' id='countForm'>
-<input type='submit' value='bubble' onClick='window.document.manager.setMax( $("#countForm").val() );'>
+<input type="text" id="countForm">
+<input type="submit" id="button" value="bubble">
 <hr>
-<div id='canvas'>
+<div id="canvas">
 </div>
 
 </body>
