@@ -1,13 +1,13 @@
-var bubbleManager = function( aCanvas ){
+var bubbleManager = function( canvas ){
 
     this.bubbles = {};
-    this.canvas = aCanvas;
+    this.canvas = canvas;
     this.bubbleMax;
     this.seq = 1;
 
-    this.setMax = function( aMax ){
+    this.setMax = function( max ){
 
-	var less = aMax - Object.keys( this.bubbles ).length;
+	var less = max - Object.keys( this.bubbles ).length;
 
 	if( less <= 0 ){
 	    return;
@@ -22,15 +22,17 @@ var bubbleManager = function( aCanvas ){
 	}
     }
 
-    this.removeBubble = function( aId ){
-	delete this.bubbles[ aId ];
+    this.removeBubble = function( id ){
+	delete this.bubbles[ id ];
     }
 
     this.addBubble = function(){
-	var aId = this.nextSequence();
-	var bubble = this.bubbleElement( aId );
+	var self = this;
+
+	var id = this.nextSequence();
+	var bubble = this.bubbleElement( id );
 	this.canvas.append( bubble );
-	this.bubbles[ aId ] = bubble;
+	this.bubbles[ id ] = bubble;
 
 	var delay = 1500 + ( Math.random() * 1000 );
 
@@ -38,21 +40,21 @@ var bubbleManager = function( aCanvas ){
 	    marginTop: '0px',
 	    opacity : '0.2'
 	}, delay, function(){
-	    window.document.manager.removeBubble( this.id );
+	    self.removeBubble( this.id );
 	    this.remove();
-	    window.document.manager.setMax( $("#countForm").val() );
+	    self.setMax( $("#countForm").val() );
 	} );
 
     };
 
 
-    this.bubbleElement = function( aId ){
+    this.bubbleElement = function( id ){
 	var bubble = $("<div/>");
 	bubble.addClass( "bubble" );
 	bubble.html("o");
 	bubble.width( "1em" );
 	bubble.css("position", "absolute" );
-	bubble.attr("id", aId );
+	bubble.attr("id", id );
 
 	var marginLeft = Math.floor( Math.random() * 100 ); 
 	bubble.css( { 'margin-left' : marginLeft +'%' } );

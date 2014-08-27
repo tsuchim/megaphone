@@ -9,13 +9,14 @@
 <script>
 $(function(){
 
-window.document.manager = new bubbleManager( $('#canvas') );
-//manager.addBubble();
+var manager = new bubbleManager( $("#canvas") );
+
+$("#startButton").click( function(){ manager.setMax( $("#countForm").val() );  } );
 
 });
 </script>
-<input type='text' id='countForm'>
-<input type='submit' value='bubble' onClick='window.document.manager.setMax( $("#countForm").val() );'>
+<input type="text" id="countForm">
+<input type="button" id="startButton" value="bubble">
 <hr>
 <div id='canvas'>
 </div>
