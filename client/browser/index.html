@@ -9,14 +9,14 @@
 <script>
 $(function(){
 
-var manager = new bubbleManager( $('#canvas') );
+var manager = new bubbleManager( $("#canvas") );
 
 $("#startButton").click( function(){ manager.setMax( $("#countForm").val() );  } );
 
 });
 </script>
-<input type='text' id='countForm'>
-<input type='button' id='startButton' value='bubble'>
+<input type="text" id="countForm">
+<input type="button" id="startButton" value="bubble">
 <hr>
 <div id='canvas'>
 </div>
