@@ -27,6 +27,8 @@ var bubbleManager = function( aCanvas ){
     }
 
     this.addBubble = function(){
+	var self = this;
+
 	var aId = this.nextSequence();
 	var bubble = this.bubbleElement( aId );
 	this.canvas.append( bubble );
@@ -38,9 +40,9 @@ var bubbleManager = function( aCanvas ){
 	    marginTop: '0px',
 	    opacity : '0.2'
 	}, delay, function(){
-	    window.document.manager.removeBubble( this.id );
+	    self.removeBubble( this.id );
 	    this.remove();
-	    window.document.manager.setMax( $("#countForm").val() );
+	    self.setMax( $("#countForm").val() );
 	} );
 
     };
