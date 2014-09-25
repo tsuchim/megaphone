@@ -7,17 +7,27 @@ a {
   color: #00B7FF;
 }
 
-div#swing_wrapper {
+div#swing0_wrapper, div#swing1_wrapper {
   width: 100%;
   font-size: 21pt;
   height: 32px;
 }
 
-div#swing_meter {
+div#swing0_meter, div#swing1_meter {
   float: left;
   position: absolute;
-  background-color: red;
   width:0%;
   height: 32px;
   z-index: -10;
+}
+
+div#swing0_meter {
+  background-color: #FA0;
+}
+div#swing1_meter {
+  background-color: #F00;
+}
+
+div#msglist div {
+    margin: 8px;
 }

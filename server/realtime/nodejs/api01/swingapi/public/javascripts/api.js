@@ -14,7 +14,7 @@ $(function() {
   // trigger for receiving msg from server
   socket.on('push msg', function (msg) {
     //console.log(msg);
-    $('#list').prepend($('<dt>message</dt><dd>' + msg + '</dd>'));
+    $('#msglist').prepend($('<div>' + msg + '</div>'));
   });
 
   // send swing magnitude by hand
@@ -22,25 +22,31 @@ $(function() {
     var magnitude = 50;
     // push magnitude command to server
     socket.emit('send swing', magnitude );
+    draw_meter('swing0',magnitude );
   });
   // trigger for receiving msg from server
   socket.on('push swing', function (mag) {
-    //console.log(mag);
-    $('#swing_number').html(mag);
+    draw_meter('swing1',mag);
+  });
+
+  function draw_meter( id, mag ) {
+    $('#'+id+'_number').html(mag);
     var sp = parseFloat(mag)/100;
     if( 1 < sp ) sp = 1;
     if( 0 > sp ) sp = 0;
-    var wd = parseInt( $("#swing_wrapper").width()*sp );
-    $('#swing_meter').css('width',wd+'px');
-  });
-
+    var wd = parseInt( $('#'+id+'_wrapper').width()*sp );
+    $('#'+id+'_meter').css('width',wd+'px');
+  }
   // send swing magnitude by sensor
   window.addEventListener("devicemotion", function(e){
     var x = e.accelerationIncludingGravity.x;
     var y = e.accelerationIncludingGravity.y;
     var z = e.accelerationIncludingGravity.z;
     var mag = 10 * ( Math.sqrt(x*x + y*y + z*z) - 10 );
-    if( 0 < mag ) socket.emit('send swing', mag );
+    if( 0 < mag ) {
+	socket.emit('send swing', mag );
+	draw_meter('swing0',mag);
+    }
   }, true);
 
   /*

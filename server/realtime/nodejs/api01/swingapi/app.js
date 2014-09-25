@@ -57,6 +57,9 @@ io.sockets.on('connection', function (socket) {
     socket.broadcast.emit('push msg', msg);
   });
   socket.on('send swing', function (mag) {
+    console.log('socket.on with send swing');
+    console.log(socket.id);
+
     totalSwingMagnitude += parseInt(mag);
     // echo back 
     var val = Math.round(Math.sqrt(totalSwingMagnitude));

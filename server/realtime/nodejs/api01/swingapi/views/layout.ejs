@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <!-- <title><%= title %></title> -->
+    <title>MegaPhone Concept</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=0.01,maximum-scale=4,user-scalable=yes">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="/javascripts/api.js"></script>  </head>
+    <script type="text/javascript" src="/javascripts/api.js"></script>
+  </head>
   <body>
+    <h2>MegaPhone コンセプト</h2>
     <button id="swing">応援</button><br />
-    <div id="swing_wrapper"><div id="swing_meter"></div><div id="swing_number">connecting...</div></div>
+    <!-- <div id="swing0_wrapper"><div id="swing0_meter"></div><div id="swing0_number">my swing</div></div> -->
+    <div id="swing1_wrapper"><div id="swing1_meter"></div><div id="swing1_number">total swing</div></div>
     <div>
     chat : <input type="text" name="message" id="message" /><button id="btn">送信</button>
-    <dl id="list"></dl>
+    <div id="msglist"></div>
     </div>
   </body>
 </html>
