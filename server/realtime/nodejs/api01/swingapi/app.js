@@ -58,18 +58,33 @@ io.sockets.on('connection', function (socket) {
     // broadcast
     socket.broadcast.emit('push msg', msg);
   });
+
   socket.on('send swing', function (json) {
-    console.log('called send swind with id='+socket.id);
     var cid = get_cid_from_id( socket.id );
-    console.log('  cid='+cid);
     var obj = JSON.parse(json);
-    console.log(obj);
+    // console.log('called send swind with id='+socket.id+' cid='+cid);
+    //console.log(obj);
     totalSwingMagnitude += parseInt(obj.mag);
     if( ! ( cid in swings ) ) swings[cid] = {};
     swings[cid]["mag"] = obj.mag;
-    swings[cid]["color"] = obj.color;
-    console.log('  swings=');
-    console.log(swings);
+    // color 
+    var r = Math.round((obj.color+1)*128);
+    if( 255 < r ) r = 'ff';
+    else if( 15 < r ) r = r.toString(16);
+    else if( 0 < r ) r = '0'+r.toString(16);
+    else r = '00';
+    var color = 'ff'+r+'00';
+
+    // reserve parameters for the client
+    swings[cid]["color_p"] = obj.color;
+    swings[cid]["color"] = color;
+    swings[cid]["lasttime"] = parseInt((new Date)/1000);
+
+    // feedback self swing
+    var obj = { total_mag: totalSwingMagnitude, self_mag: obj.mag, self_color: color };
+    socket.emit('push swing', JSON.stringify(obj) );
+
+    // console.log('swing mag='+obj.mag+' color='+color+' id='+socket.id+' cid='+cid);
   });
 
   // trigger by disconnection
@@ -83,30 +98,49 @@ function get_cid_from_id( id ) {
     var cid=1;
     // search cid in id2cid
     if( id in id2cid ) {
-	cid = id2cid[id];
-	return cid;
+	return cid = id2cid[id];
     }
     // provides new unique cid
     console.log('new connection');
     for( i in id2cid ) {
       if( cid<=id2cid[i] ) cid = id2cid[i]+1;
     }
-    id2cid[id] = cid;
-    return cid;
+    return id2cid[id] = cid;
 }
 
 // execute intervally
 var lastEmitMag = 0;
 setInterval( function () {
-  if( 0.1 < totalSwingMagnitude && ( totalSwingMagnitude/lastEmitMag < 0.7 || 1.1 < totalSwingMagnitude/lastEmitMag ) ) {
-      var obj = { total_mag: totalSwingMagnitude, swings: {} };
-     for( cid in swings ) {
-	 obj["swings"][cid] = { "mag":swings[cid]["mag"], "color":swings[cid]["color"] };
-     }
-    io.sockets.emit('push swing', JSON.stringify(obj) );
-    console.log('emit push swing');
-    console.log(obj);
-    lastEmitMag = totalSwingMagnitude;
+  // console.log('Interval totalSwingMagnitude='+totalSwingMagnitude+' lastEmitMag='+lastEmitMag);
+
+  // Scan and validate Swing Array
+  totalSwingMagnitude = 0;
+  for( cid in swings ) {
+      // timeout
+      if( swings[cid]["lasttime"] < parseInt((new Date)/1000)-60 ) {
+	  delete swings[cid];
+	  console.log('delete cid='+cid);
+	  continue;
+      }
+      // decay magnitude
+      swings[cid]["mag"] *= 0.9;
+      // sum for total
+      totalSwingMagnitude += swings[cid]["mag"];
   }
-  totalSwingMagnitude *= 0.9;
+
+  // broadcast
+  if( 0.1 < totalSwingMagnitude && ( totalSwingMagnitude/lastEmitMag < 0.7 || 1.1 < totalSwingMagnitude/lastEmitMag ) ) {
+    lastEmitMag = totalSwingMagnitude;
+    var obj = { swings: {} };
+    for( cid in swings ) {
+	// pack to json-source object
+	obj["swings"][cid] = { "mag":swings[cid]["mag"], "color":swings[cid]["color"] };
+    }
+    obj['total_mag'] = totalSwingMagnitude;
+
+    io.sockets.emit('push swings', JSON.stringify(obj) );
+    //console.log('emit push swings');
+    //console.log(obj);
+  }
 }, 100 );
+
