@@ -44,7 +44,8 @@ $(function() {
     var z = e.accelerationIncludingGravity.z;
     var mag = 10 * ( Math.sqrt(x*x + y*y + z*z) - 10 );
     if( 0 < mag ) {
-	socket.emit('send swing', mag );
+	var obj = { mag: mag, color: 'F80' }
+	socket.emit('send swing', JSON.stringify(obj) );
 	draw_meter('swing0',mag);
     }
   }, true);

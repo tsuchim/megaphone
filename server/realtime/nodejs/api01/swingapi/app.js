@@ -46,6 +46,8 @@ var io = require('socket.io').listen(app);
 io.set('log level', 2);
 // common environment
 var totalSwingMagnitude = 0;
+var id2cid = []; // socket.id を cid (Client ID)に焼き直す [ id : cid ]
+var swings = []; // 各々の swing [ cid : [ mag, color ] ]
 // connection loop
 io.sockets.on('connection', function (socket) {
 
@@ -56,19 +58,12 @@ io.sockets.on('connection', function (socket) {
     // broadcast
     socket.broadcast.emit('push msg', msg);
   });
-  socket.on('send swing', function (mag) {
-    console.log('socket.on with send swing');
-    console.log(socket.id);
-
+  socket.on('send swing', function (json) {
+    var cid = get_cid_from_id( socket.id );
+    var obj = JSON.parse(json);
     totalSwingMagnitude += parseInt(mag);
-    // echo back 
-    var val = Math.round(Math.sqrt(totalSwingMagnitude));
-    socket.emit('push swing', val );
-  });
-  socket.on('req total swing', function () {
-    var val = Math.round(Math.sqrt(totalSwingMagnitude));
-    // echo back 
-    socket.emit('push swing', val );
+    swings[cid][mag]   = obj.mag;
+    swings[cid][color] = obj.color;
   });
 
   // trigger by disconnection
@@ -76,6 +71,23 @@ io.sockets.on('connection', function (socket) {
     console.log('disconnected');
   });
 });
+
+// return cid by cid
+function get_cid_from_id( id ) {
+    var cid=0;
+    // search cid in id2cid
+    if( id in id2cid ) {
+	cid = id2dcid[id];
+	return cid;
+    }
+    // provides new unique cid
+    while(1) {
+	cid = id; // とりあえずIDをそのまま使う
+	if( 0 <= cid.indexOf(cid) ) continue;
+	id2cid[id] = cid;
+	return cid;
+    }
+}
 
 // execute intervally
 var lastEmitMag = 0;
