@@ -46,8 +46,8 @@ var io = require('socket.io').listen(app);
 io.set('log level', 2);
 // common environment
 var totalSwingMagnitude = 0;
-var id2cid = []; // socket.id を cid (Client ID)に焼き直す [ id : cid ]
-var swings = []; // 各々の swing [ cid : [ mag, color ] ]
+var id2cid = {}; // socket.id を cid (Client ID)に焼き直す [ id : cid ]
+var swings = {}; // 各々の swing [ cid : [ mag, color ] ]
 // connection loop
 io.sockets.on('connection', function (socket) {
 
@@ -59,14 +59,17 @@ io.sockets.on('connection', function (socket) {
     socket.broadcast.emit('push msg', msg);
   });
   socket.on('send swing2', function (json) {
-    console.log('called send swind');
-    console.log('  id='+socket.id);
+    console.log('called send swind with id='+socket.id);
     var cid = get_cid_from_id( socket.id );
     console.log('  cid='+cid);
     var obj = JSON.parse(json);
     console.log(obj);
     totalSwingMagnitude += parseInt(obj.mag);
-    swings[cid] = obj;
+    if( ! ( cid in swings ) ) swings[cid] = {};
+    swings[cid]["mag"] = obj.mag;
+    swings[cid]["color"] = obj.color;
+    console.log('  swings=');
+    console.log(swings);
   });
 
   // trigger by disconnection
@@ -77,28 +80,31 @@ io.sockets.on('connection', function (socket) {
 
 // return cid by cid
 function get_cid_from_id( id ) {
-    var cid=0;
+    var cid=1;
     // search cid in id2cid
     if( id in id2cid ) {
 	cid = id2cid[id];
 	return cid;
     }
     // provides new unique cid
-    while(1) {
-	cid++; // とりあえずIDをそのまま使う
-	if( 0 <= id2cid.indexOf(cid) ) continue;
-	id2cid[id] = cid;
-	return cid;
+    for( id in id2cid ) {
+      if( cid<=id2cid[id] ) cid = id2cid[id]+1;
     }
+    id2cid[id] = cid;
+    return cid;
 }
 
 // execute intervally
 var lastEmitMag = 0;
 setInterval( function () {
-  var val = Math.round(Math.sqrt(totalSwingMagnitude));
-  if( val/lastEmitMag < 0.7 || 1.1 < val/lastEmitMag ) {
-      var obj = { total_mag: val };
-    io.sockets.emit('push swing', JSON.stringify(obj) );
+  if( 0.1 < totalSwingMagnitude && ( totalSwingMagnitude/lastEmitMag < 0.7 || 1.1 < totalSwingMagnitude/lastEmitMag ) ) {
+      var obj = { total_mag: totalSwingMagnitude, swings: {} };
+     for( cid in swings ) {
+	 obj["swings"][cid] = { "mag":swings[cid]["mag"], "color":swings[cid]["color"] };
+     }
+    io.sockets.emit('push swing2', JSON.stringify(obj) );
+    console.log('emit push swing2');
+    console.log(obj);
     lastEmitMag = totalSwingMagnitude;
   }
   totalSwingMagnitude *= 0.9;

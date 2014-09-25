@@ -26,14 +26,14 @@ $(function() {
     draw_meter('swing0',magnitude );
   });
   // trigger for receiving msg from server
-  socket.on('push swing', function (json) {
+  socket.on('push swing2', function (json) {
     var obj = JSON.parse(json);
     draw_meter('swing1',obj.total_mag);
   });
 
   function draw_meter( id, mag ) {
-    $('#'+id+'_number').html(mag);
-    var sp = parseFloat(mag)/100;
+    $('#'+id+'_number').html(Math.round(mag));
+    var sp = Math.sqrt(parseFloat(mag))/100;
     if( 1 < sp ) sp = 1;
     if( 0 > sp ) sp = 0;
     var wd = parseInt( $('#'+id+'_wrapper').width()*sp );
