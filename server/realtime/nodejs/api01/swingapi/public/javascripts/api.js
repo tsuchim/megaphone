@@ -22,11 +22,11 @@ $(function() {
     var magnitude = 50;
     // push magnitude command to server
     var obj = { mag: magnitude, color: 'F80' }
-    socket.emit('send swing2', JSON.stringify(obj) );
+    socket.emit('send swing', JSON.stringify(obj) );
     draw_meter('swing0',magnitude );
   });
   // trigger for receiving msg from server
-  socket.on('push swing2', function (json) {
+  socket.on('push swing', function (json) {
     var obj = JSON.parse(json);
     draw_meter('swing1',obj.total_mag);
   });
@@ -47,7 +47,7 @@ $(function() {
     var mag = 10 * ( Math.sqrt(x*x + y*y + z*z) - 10 );
     if( 0 < mag ) {
 	var obj = { mag: mag, color: 'F80' }
-	socket.emit('send swing2', JSON.stringify(obj) );
+	socket.emit('send swing', JSON.stringify(obj) );
 	draw_meter('swing0',mag);
     }
   }, true);

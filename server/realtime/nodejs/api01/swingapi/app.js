@@ -58,7 +58,7 @@ io.sockets.on('connection', function (socket) {
     // broadcast
     socket.broadcast.emit('push msg', msg);
   });
-  socket.on('send swing2', function (json) {
+  socket.on('send swing', function (json) {
     console.log('called send swind with id='+socket.id);
     var cid = get_cid_from_id( socket.id );
     console.log('  cid='+cid);
@@ -102,8 +102,8 @@ setInterval( function () {
      for( cid in swings ) {
 	 obj["swings"][cid] = { "mag":swings[cid]["mag"], "color":swings[cid]["color"] };
      }
-    io.sockets.emit('push swing2', JSON.stringify(obj) );
-    console.log('emit push swing2');
+    io.sockets.emit('push swing', JSON.stringify(obj) );
+    console.log('emit push swing');
     console.log(obj);
     lastEmitMag = totalSwingMagnitude;
   }
