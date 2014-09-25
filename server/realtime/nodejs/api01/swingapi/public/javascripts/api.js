@@ -21,9 +21,9 @@ $(function() {
   $('#swing').click(function() {
     var magnitude = 50;
     // push magnitude command to server
-    var obj = { mag: magnitude, color: 'F80' }
+    var obj = { mag: magnitude, color: 'FF8800' }
     socket.emit('send swing', JSON.stringify(obj) );
-    draw_meter('swing0',magnitude );
+    draw_meter('swing0',magnitude, 'FF8800' );
   });
   // trigger for receiving msg from server
   socket.on('push swing', function (json) {
@@ -31,22 +31,29 @@ $(function() {
     draw_meter('swing1',obj.total_mag);
   });
 
-  function draw_meter( id, mag ) {
+  function draw_meter( id, mag, color ) {
     $('#'+id+'_number').html(Math.round(mag));
     var sp = Math.sqrt(parseFloat(mag))/100;
     if( 1 < sp ) sp = 1;
     if( 0 > sp ) sp = 0;
     var wd = parseInt( $('#'+id+'_wrapper').width()*sp );
-    $('#'+id+'_meter').css('width',wd+'px');
+    $('#'+id+'_meter').css('width',wd+'px').css('background-color','#'+color);
   }
   // send swing magnitude by sensor
   window.addEventListener("devicemotion", function(e){
     var x = e.accelerationIncludingGravity.x;
     var y = e.accelerationIncludingGravity.y;
     var z = e.accelerationIncludingGravity.z;
-    var mag = 10 * ( Math.sqrt(x*x + y*y + z*z) - 10 );
+    var m = Math.sqrt(x*x + y*y + z*z);
+    var mag = 10 * ( m - 10 );
     if( 0 < mag ) {
-	var obj = { mag: mag, color: 'F80' }
+	var r = Math.round((-y/m+1)*255);
+	if( 255 < r ) r = 'ff';
+	else if( 15 < r ) r = r.toString(16);
+	else if( 0 < r ) r = '0'+r.toString(16);
+	else r = '00';
+	var color = 'ff'+r+'00';
+	var obj = { mag: mag, color: color }
 	socket.emit('send swing', JSON.stringify(obj) );
 	draw_meter('swing0',mag);
     }
