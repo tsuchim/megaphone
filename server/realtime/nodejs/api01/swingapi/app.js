@@ -58,12 +58,15 @@ io.sockets.on('connection', function (socket) {
     // broadcast
     socket.broadcast.emit('push msg', msg);
   });
-  socket.on('send swing', function (json) {
+  socket.on('send swing2', function (json) {
+    console.log('called send swind');
+    console.log('  id='+socket.id);
     var cid = get_cid_from_id( socket.id );
+    console.log('  cid='+cid);
     var obj = JSON.parse(json);
-    totalSwingMagnitude += parseInt(mag);
-    swings[cid][mag]   = obj.mag;
-    swings[cid][color] = obj.color;
+    console.log(obj);
+    totalSwingMagnitude += parseInt(obj.mag);
+    swings[cid] = obj;
   });
 
   // trigger by disconnection
@@ -77,13 +80,13 @@ function get_cid_from_id( id ) {
     var cid=0;
     // search cid in id2cid
     if( id in id2cid ) {
-	cid = id2dcid[id];
+	cid = id2cid[id];
 	return cid;
     }
     // provides new unique cid
     while(1) {
-	cid = id; // とりあえずIDをそのまま使う
-	if( 0 <= cid.indexOf(cid) ) continue;
+	cid++; // とりあえずIDをそのまま使う
+	if( 0 <= id2cid.indexOf(cid) ) continue;
 	id2cid[id] = cid;
 	return cid;
     }
@@ -94,7 +97,8 @@ var lastEmitMag = 0;
 setInterval( function () {
   var val = Math.round(Math.sqrt(totalSwingMagnitude));
   if( val/lastEmitMag < 0.7 || 1.1 < val/lastEmitMag ) {
-    io.sockets.emit('push swing', val );
+      var obj = { total_mag: val };
+    io.sockets.emit('push swing', JSON.stringify(obj) );
     lastEmitMag = totalSwingMagnitude;
   }
   totalSwingMagnitude *= 0.9;
