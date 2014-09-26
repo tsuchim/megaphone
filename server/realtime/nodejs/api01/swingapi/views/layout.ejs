@@ -10,18 +10,19 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="/javascripts/api.js"></script>
-<!--    <script type="text/javascript" src="/javascripts/bubbleManager.js"></script> -->
+    <script type="text/javascript" src="/javascripts/bubbleInfo.js"></script>
+    <script type="text/javascript" src="/javascripts/bubbleManager.js"></script>
     <script type="text/javascript" src="/javascripts/chatManager.js"></script>
 <script>
 $(function(){
     document.socket = io.connect('http://api.m-ph.org:3000');
-/*
     var manager = $('#canvas').bubbleManager({
         max: 100,
-        value: '#countForm',
-        button: '#button'
+        button: '#button',
+	idForm: '#idForm',
+	magForm: '#magForm',
+	colorForm: '#colForm'
     });
-*/
     var chatManager = $('#buttons').chatManager({
 	box : '#presetBox',
 	labels: [ 'チャンス!', 'やったー', 'ナイス!!' ]
@@ -40,10 +41,11 @@ $(function(){
     <div id='presetBox'></div>
     <div id="msglist"></div>
     </div>
-<!--
-    <input type="text" id="countForm">
+    <hr>
+    id : <input type="text" id="idForm">
+    mag : <input type="text" id="magForm">
+    color : <input type="text" id="colForm">
     <input type="submit" id="button" value="bubble">
     <div id="canvas"></div>
--->
   </body>
 </html>
