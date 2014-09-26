@@ -28,6 +28,10 @@ div#swing1_meter {
   background-color: #F00;
 }
 
-div#msglist div {
-    margin: 8px;
+div#msglist {
+    overflow : scroll;
+    position : absolute;
+    z-index : 0;
+    height : 100%;
+    width : 100px;
 }
