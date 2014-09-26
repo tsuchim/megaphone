@@ -57,7 +57,7 @@ $.fn.bubbleManager = function (options) {
 	bubble.css( "border-radius", (size/2) );
 	bubble.css( "background-color", info.color );
 
-	bubble.css('margin-top', $(document).height() - 300);
+	bubble.css('margin-top', $(document).height() - 200);
 	bubble.css('opacity', 1 );
         bubble.animate({
             marginTop: '0px',

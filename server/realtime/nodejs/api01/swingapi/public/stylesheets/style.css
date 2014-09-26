@@ -1,5 +1,5 @@
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 32px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-image : url("../images/baseball.jpg");
   background-size : cover;
 }
@@ -11,6 +11,10 @@ div#contents {
 
 a {
   color: #00B7FF;
+}
+
+button#swing, input.button {
+  padding: 5px 20px;
 }
 
 div#swing0_wrapper, div#swing1_wrapper {

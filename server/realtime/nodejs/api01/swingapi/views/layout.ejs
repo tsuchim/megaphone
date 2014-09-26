@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=640">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>MegaPhone Concept</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel='stylesheet' href='/stylesheets/base.css' />
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=640,user-scalable=no">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="/javascripts/api.js"></script>
@@ -44,8 +44,21 @@ $(function(){
 		$('#canvas').bubbleManager.removeBubble( cid );
 	    }
 	}
-
+        // draw meter
+        draw_meter('swing1',obj.total_mag);
+        draw_meter('swing0',0);
     });
+
+  // this should be contained in the class, yet just copy it now
+  function draw_meter( id, mag, color ) {
+    $('#'+id+'_number').html(Math.round(mag));
+    var sp = Math.sqrt(parseFloat(mag))/100;
+    if( 1 < sp ) sp = 1;
+    if( 0 > sp ) sp = 0;
+    var wd = parseInt( $('#'+id+'_wrapper').width()*sp );
+    if( 0 <= wd ) $('#'+id+'_meter').css('width',wd+'px');
+    if( color ) $('#'+id+'_meter').css('background-color','#'+color);
+  }
 
 });
 </script>

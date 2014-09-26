@@ -70,7 +70,7 @@ io.sockets.on('connection', function (socket) {
     var mag = Math.min( obj.mag, 100 );
     swings[cid]["mag"] = mag;
     // color 
-    var r = Math.round((obj.color+1)*128);
+    var r = Math.round((1.5*obj.color+1)*128);
     if( 255 < r ) r = 'ff';
     else if( 15 < r ) r = r.toString(16);
     else if( 0 < r ) r = '0'+r.toString(16);
