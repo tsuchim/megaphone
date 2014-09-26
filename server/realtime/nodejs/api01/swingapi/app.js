@@ -66,7 +66,9 @@ io.sockets.on('connection', function (socket) {
     //console.log(obj);
     totalSwingMagnitude += parseInt(obj.mag);
     if( ! ( cid in swings ) ) swings[cid] = {};
-    swings[cid]["mag"] = obj.mag;
+    // 最大100
+    var mag = Math.min( obj.mag, 100 );
+    swings[cid]["mag"] = mag;
     // color 
     var r = Math.round((obj.color+1)*128);
     if( 255 < r ) r = 'ff';
@@ -101,15 +103,16 @@ function get_cid_from_id( id ) {
 	return cid = id2cid[id];
     }
     // provides new unique cid
-    console.log('new connection cid='+cid+' for id='+id);
     for( i in id2cid ) {
       if( cid<=id2cid[i] ) cid = id2cid[i]+1;
     }
+    console.log('new connection cid='+cid+' for id='+id);
     return id2cid[id] = cid;
 }
 
 // execute intervally
 var lastEmitMag = 0;
+var lastBroadcastCount = 0;
 setInterval( function () {
   // console.log('Interval totalSwingMagnitude='+totalSwingMagnitude+' lastEmitMag='+lastEmitMag);
 
@@ -117,7 +120,7 @@ setInterval( function () {
   totalSwingMagnitude = 0;
   for( cid in swings ) {
       // timeout
-      if( swings[cid]["lasttime"] < parseInt((new Date)/1000)-60 ) {
+      if( swings[cid]["lasttime"] < parseInt((new Date)/1000)-10 ) {
 	  delete swings[cid];
 	  console.log('delete cid='+cid);
 	  continue;
@@ -129,8 +132,9 @@ setInterval( function () {
   }
 
   // broadcast
-  if( 0.1 < totalSwingMagnitude && ( totalSwingMagnitude/lastEmitMag < 0.7 || 1.1 < totalSwingMagnitude/lastEmitMag ) ) {
+  if( 20 < lastBroadcastCount || 0.1 < totalSwingMagnitude && ( totalSwingMagnitude/lastEmitMag < 0.7 || 1.1 < totalSwingMagnitude/lastEmitMag ) ) {
     lastEmitMag = totalSwingMagnitude;
+    lastBroadcastCount = 0;
     var obj = { swings: {} };
     for( cid in swings ) {
 	// pack to json-source object
@@ -139,8 +143,10 @@ setInterval( function () {
     obj['total_mag'] = totalSwingMagnitude;
 
     io.sockets.emit('push swings', JSON.stringify(obj) );
-    //console.log('emit push swings');
+    console.log('emit push swings of '+Object.keys(swings).length);
     //console.log(obj);
+  }else{
+    lastBroadcastCount++;
   }
 }, 100 );
 
