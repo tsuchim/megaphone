@@ -1,0 +1,10 @@
+div.bubble {
+    border : 1px solid gray;
+    padding : 1px;
+    margin-bottom : 0px;
+}
+
+div#canvas {
+    width:100%;
+    z-index : 10;
+}

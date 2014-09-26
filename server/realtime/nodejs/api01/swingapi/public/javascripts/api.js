@@ -14,33 +14,58 @@ $(function() {
   // trigger for receiving msg from server
   socket.on('push msg', function (msg) {
     //console.log(msg);
-    $('#list').prepend($('<dt>message</dt><dd>' + msg + '</dd>'));
+    $('#msglist').prepend($('<div>' + msg + '</div>'));
   });
 
   // send swing magnitude by hand
   $('#swing').click(function() {
     var magnitude = 50;
     // push magnitude command to server
-    socket.emit('send swing', magnitude );
+    var obj = { mag: magnitude, color: 0 }
+    socket.emit('send swing', JSON.stringify(obj) );
+    // draw_meter('swing0',magnitude, 'FF8800' );
   });
-  // trigger for receiving msg from server
-  socket.on('push swing', function (mag) {
-    //console.log(mag);
-    $('#swing_number').html(mag);
-    var sp = parseFloat(mag)/100;
+
+/*
+  // trigger for receiving swings from server
+  socket.on('push swings', function (json) {
+      var obj = JSON.parse(json);
+//    draw_meter('swing1',obj.total_mag);
+      console.log( document.bubbleManager );
+  });
+*/
+
+  socket.on('push swing', function (json) {
+    var obj = JSON.parse(json);
+    draw_meter('swing0',obj.self_mag,obj.self_color);
+    draw_meter('swing1',obj.total_mag);
+  });
+
+
+
+  function draw_meter( id, mag, color ) {
+    $('#'+id+'_number').html(Math.round(mag));
+    var sp = Math.sqrt(parseFloat(mag))/100;
     if( 1 < sp ) sp = 1;
     if( 0 > sp ) sp = 0;
-    var wd = parseInt( $("#swing_wrapper").width()*sp );
-    $('#swing_meter').css('width',wd+'px');
-  });
+    var wd = parseInt( $('#'+id+'_wrapper').width()*sp );
+    if( wd ) $('#'+id+'_meter').css('width',wd+'px');
+    if( color ) $('#'+id+'_meter').css('background-color','#'+color);
+  }
 
   // send swing magnitude by sensor
   window.addEventListener("devicemotion", function(e){
     var x = e.accelerationIncludingGravity.x;
     var y = e.accelerationIncludingGravity.y;
     var z = e.accelerationIncludingGravity.z;
-    var mag = 10 * ( Math.sqrt(x*x + y*y + z*z) - 10 );
-    if( 0 < mag ) socket.emit('send swing', mag );
+    var m = Math.sqrt(x*x + y*y + z*z);
+    var mag = 10 * ( m - 10 );
+    if( 0 < mag ) {
+	var c = -y/m;
+	var obj = { mag: mag, color: c } // mag:magnitude(0-99), color:color parameter(-1 to 1)
+	socket.emit('send swing', JSON.stringify(obj) );
+	draw_meter('swing0',mag);
+    }
   }, true);
 
   /*

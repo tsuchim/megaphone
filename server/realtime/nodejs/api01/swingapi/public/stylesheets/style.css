@@ -1,23 +1,47 @@
 body {
+  font: 32px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-image : url("../images/baseball.jpg");
+  background-size : cover;
+}
+
+div#contents {
+  width:640px;
   padding: 10px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
 }
 
-div#swing_wrapper {
+button#swing, input.button {
+  padding: 5px 20px;
+}
+
+div#swing0_wrapper, div#swing1_wrapper {
   width: 100%;
   font-size: 21pt;
   height: 32px;
 }
 
-div#swing_meter {
+div#swing0_meter, div#swing1_meter {
   float: left;
   position: absolute;
-  background-color: red;
   width:0%;
   height: 32px;
   z-index: -10;
+}
+
+div#swing0_meter {
+  background-color: #FA0;
+}
+div#swing1_meter {
+  background-color: #F00;
+}
+
+div#msglist {
+    overflow : scroll;
+    position : absolute;
+    z-index : 0;
+    height : 100%;
+    width : 100%;
 }
