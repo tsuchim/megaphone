@@ -31,12 +31,20 @@ $(function(){
 
     document.socket.on('push swings', function (json) {
 	var obj = JSON.parse(json);
+	var currentIds = $('#canvas').bubbleManager.ids();
 	for( var id in obj.swings ){
 	    var swinginfo = obj.swings[id];
 	    if( swinginfo.mag > 1 ){
 		$('#canvas').bubbleManager.addBubble( id, swinginfo.mag, '#'+swinginfo.color);
 	    }
 	}
+
+	for( var cid in currentIds ){
+	    if( ! obj.swings[ cid ] ){
+		$('#canvas').bubbleManager.removeBubble( cid );
+	    }
+	}
+
     });
 
 });
