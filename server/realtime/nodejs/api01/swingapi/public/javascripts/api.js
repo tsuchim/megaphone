@@ -25,11 +25,16 @@ $(function() {
     socket.emit('send swing', JSON.stringify(obj) );
     // draw_meter('swing0',magnitude, 'FF8800' );
   });
+
+/*
   // trigger for receiving swings from server
   socket.on('push swings', function (json) {
-    var obj = JSON.parse(json);
-    draw_meter('swing1',obj.total_mag);
+      var obj = JSON.parse(json);
+//    draw_meter('swing1',obj.total_mag);
+      console.log( document.bubbleManager );
   });
+*/
+
   socket.on('push swing', function (json) {
     var obj = JSON.parse(json);
     draw_meter('swing0',obj.self_mag,obj.self_color);
