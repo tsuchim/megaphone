@@ -24,6 +24,18 @@ $.fn.bubbleManager = function (options) {
 	animateBubble( bubble );
     }
 
+    $.fn.bubbleManager.removeBubble = function( id ){
+	delete( bubbles[id] );
+    }
+
+    $.fn.bubbleManager.ids = function( id ){
+	var ids = [];
+	for( i in bubbles ){
+	    ids[i] = 1;
+	}
+	return ids;
+    }
+
     var repeatBubble = function( bubble ){
 	if( isLiveBubble( bubble ) == false ){
 	    bubble.remove();
@@ -56,7 +68,11 @@ $.fn.bubbleManager = function (options) {
     }
 
     var isLiveBubble = function( bubble ){
-	return true;
+	var id = bubble.attr("id");
+	if( bubbles[ id ] ){
+	    return true;
+	}
+	return false;
     }
 
     var createBubble = function( info ) {
