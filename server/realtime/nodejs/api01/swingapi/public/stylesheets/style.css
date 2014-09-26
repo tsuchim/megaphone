@@ -1,6 +1,10 @@
 body {
-  padding: 10px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+div#contents {
+  width:640px;
+  padding: 10px;
 }
 
 a {
@@ -33,5 +37,5 @@ div#msglist {
     position : absolute;
     z-index : 0;
     height : 100%;
-    width : 100px;
+    width : 100%;
 }
