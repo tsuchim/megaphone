@@ -11,14 +11,20 @@
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="/javascripts/api.js"></script>
     <script type="text/javascript" src="/javascripts/bubbleManager.js"></script>
-
+    <script type="text/javascript" src="/javascripts/chatManager.js"></script>
 <script>
 $(function(){
+    document.socket = io.connect('http://api.m-ph.org:3000');
     var manager = $('#canvas').bubbleManager({
         max: 100,
         value: '#countForm',
         button: '#button'
     });
+    var chatManager = $('#buttons').chatManager({
+	box : '#presetBox',
+	labels: [ 'チャンス!', 'やったー', 'ナイス!!' ]
+    });
+
 });
 </script>
 </head>
@@ -29,9 +35,9 @@ $(function(){
     <div id="swing1_wrapper"><div id="swing1_meter"></div><div id="swing1_number">total swing</div></div>
     <div>
     chat : <input type="text" name="message" id="message" /><button id="btn">送信</button>
+    <div id='presetBox'></div>
     <div id="msglist"></div>
     </div>
-
 <input type="text" id="countForm">
 <input type="submit" id="button" value="bubble">
 
