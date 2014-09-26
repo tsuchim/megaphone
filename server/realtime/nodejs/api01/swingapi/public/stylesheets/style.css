@@ -1,5 +1,7 @@
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-image : url("../images/baseball.jpg");
+  background-size : cover;
 }
 
 div#contents {
