@@ -4,3 +4,6 @@ div.bubble {
     margin-bottom : 0px;
 }
 
+div#canvas {
+    z-index : 10;
+}
