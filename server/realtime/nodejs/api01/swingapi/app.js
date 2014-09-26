@@ -101,7 +101,7 @@ function get_cid_from_id( id ) {
 	return cid = id2cid[id];
     }
     // provides new unique cid
-    console.log('new connection');
+    console.log('new connection cid='+cid+' for id='+id);
     for( i in id2cid ) {
       if( cid<=id2cid[i] ) cid = id2cid[i]+1;
     }
