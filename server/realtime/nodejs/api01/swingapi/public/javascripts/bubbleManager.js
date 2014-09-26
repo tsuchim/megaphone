@@ -13,18 +13,13 @@ $.fn.bubbleManager = function (options) {
     }
 
     $.fn.bubbleManager.addBubble = function( id, mag, color){
-
 	if( isUsedId( id ) == true ){
-
-	    resizeBubble( id, mag );
-
+	    bubbles[ id ] = new BubbleInfo( id, mag, color );;
 	    return;
 	}
-	bubbles[ id ] = 1;
 
-	var bubbleInfo = new BubbleInfo( id, mag, color );
-
-	var bubble = createBubble( bubbleInfo );
+	bubbles[ id ] = new BubbleInfo( id, mag, color );;
+	var bubble = createBubble( bubbles[ id ] );
 	self.append(bubble);
 	animateBubble( bubble );
     }
@@ -38,6 +33,18 @@ $.fn.bubbleManager = function (options) {
     }
 
     var animateBubble = function( bubble ){
+	var id = bubble.attr("id");
+
+	var info = bubbles[ id ];
+
+	var size = info.size();;
+	bubble.css( "width", size );
+	bubble.css( "height", size );
+	bubble.css( "-webkit-border-radius", (size/2) );
+	bubble.css( "-moz-border-radius", (size/2) );
+	bubble.css( "border-radius", (size/2) );
+	bubble.css( "background-color", info.color );
+
 	bubble.css('margin-top', $(document).height() - 300);
 	bubble.css('opacity', 1 );
         bubble.animate({
@@ -60,27 +67,10 @@ $.fn.bubbleManager = function (options) {
         bubble.css("position", "absolute" );
 	bubble.attr("id", info.id );
 
-	var size = info.size();;
-	bubble.css( "width", size );
-	bubble.css( "height", size );
-	bubble.css( "-webkit-border-radius", (size/2) );
-	bubble.css( "-moz-border-radius", (size/2) );
-	bubble.css( "border-radius", (size/2) );
-
-	bubble.css( "background-color", info.color );
-
         bubble.css( { 'margin-left' : info.margin +'%' } );
         return bubble;
     };
 
-    var resizeBubble = function( id, size ){
-	var bubble = $( '#' + id );
-	bubble.css( "width", size );
-	bubble.css( "height", size );
-	bubble.css( "-webkit-border-radius", (size/2) );
-	bubble.css( "-moz-border-radius", (size/2) );
-	bubble.css( "border-radius", (size/2) );
-    }
 
 };
 })(jQuery);
