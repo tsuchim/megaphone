@@ -1,16 +1,35 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!-- <title><%= title %></title> -->
     <title>MegaPhone Concept</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/base.css' />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=0.01,maximum-scale=4,user-scalable=yes">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="/javascripts/api.js"></script>
-  </head>
+<!--    <script type="text/javascript" src="/javascripts/bubbleManager.js"></script> -->
+    <script type="text/javascript" src="/javascripts/chatManager.js"></script>
+<script>
+$(function(){
+    document.socket = io.connect('http://api.m-ph.org:3000');
+/*
+    var manager = $('#canvas').bubbleManager({
+        max: 100,
+        value: '#countForm',
+        button: '#button'
+    });
+*/
+    var chatManager = $('#buttons').chatManager({
+	box : '#presetBox',
+	labels: [ 'チャンス!', 'やったー', 'ナイス!!' ]
+    });
+
+});
+</script>
+</head>
   <body>
     <h2>MegaPhone コンセプト</h2>
     <button id="swing">応援</button><br />
@@ -18,7 +37,13 @@
     <div id="swing1_wrapper"><div id="swing1_meter"></div><div id="swing1_number">total swing</div></div>
     <div>
     chat : <input type="text" name="message" id="message" /><button id="btn">送信</button>
+    <div id='presetBox'></div>
     <div id="msglist"></div>
     </div>
+<!--
+    <input type="text" id="countForm">
+    <input type="submit" id="button" value="bubble">
+    <div id="canvas"></div>
+-->
   </body>
 </html>
