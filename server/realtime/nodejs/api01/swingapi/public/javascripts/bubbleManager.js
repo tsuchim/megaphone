@@ -4,9 +4,25 @@ $.fn.bubbleManager = function (options) {
     var bubbles = [];
     var current_disploy_number = 0;
 
-    var addBubble = function(){
+    
+    var isUsedId = function( id ){
+	if( bubbles[ id ] ){
+	    return true;
+	}
+	return false;
+    }
 
-	var bubbleInfo = new BubbleInfo( $(options.idForm).val(), $(options.magForm).val(), $(options.colorForm).val() );
+    $.fn.bubbleManager.addBubble = function( id, mag, color){
+
+	if( isUsedId( id ) == true ){
+
+	    resizeBubble( id, mag );
+
+	    return;
+	}
+	bubbles[ id ] = 1;
+
+	var bubbleInfo = new BubbleInfo( id, mag, color );
 
 	var bubble = createBubble( bubbleInfo );
 	self.append(bubble);
@@ -51,12 +67,20 @@ $.fn.bubbleManager = function (options) {
 	bubble.css( "-moz-border-radius", (size/2) );
 	bubble.css( "border-radius", (size/2) );
 
+	bubble.css( "background-color", info.color );
+
         bubble.css( { 'margin-left' : info.margin +'%' } );
         return bubble;
     };
 
-    $(options.button).click(addBubble);
-
+    var resizeBubble = function( id, size ){
+	var bubble = $( '#' + id );
+	bubble.css( "width", size );
+	bubble.css( "height", size );
+	bubble.css( "-webkit-border-radius", (size/2) );
+	bubble.css( "-moz-border-radius", (size/2) );
+	bubble.css( "border-radius", (size/2) );
+    }
 
 };
 })(jQuery);

@@ -16,16 +16,27 @@
 <script>
 $(function(){
     document.socket = io.connect('http://api.m-ph.org:3000');
-    var manager = $('#canvas').bubbleManager({
+    bubbleManager = $('#canvas').bubbleManager({
         max: 100,
         button: '#button',
 	idForm: '#idForm',
 	magForm: '#magForm',
 	colorForm: '#colForm'
     });
+
     var chatManager = $('#buttons').chatManager({
 	box : '#presetBox',
 	labels: [ 'チャンス!', 'やったー', 'ナイス!!' ]
+    });
+
+    document.socket.on('push swings', function (json) {
+	var obj = JSON.parse(json);
+	for( var id in obj.swings ){
+	    var swinginfo = obj.swings[id];
+	    if( swinginfo.mag > 1 ){
+		$('#canvas').bubbleManager.addBubble( id, swinginfo.mag, '#'+swinginfo.color);
+	    }
+	}
     });
 
 });
@@ -42,10 +53,6 @@ $(function(){
     <div id="msglist"></div>
     </div>
     <hr>
-    id : <input type="text" id="idForm">
-    mag : <input type="text" id="magForm">
-    color : <input type="text" id="colForm">
-    <input type="submit" id="button" value="bubble">
     <div id="canvas"></div>
   </body>
 </html>
