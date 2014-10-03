@@ -13,9 +13,12 @@
     <script type="text/javascript" src="/javascripts/bubbleInfo.js"></script>
     <script type="text/javascript" src="/javascripts/bubbleManager.js"></script>
     <script type="text/javascript" src="/javascripts/chatManager.js"></script>
+    <script type="text/javascript" src="/javascripts/GestureManager.js"></script>
+    <script type="text/javascript" src="/javascripts/hammer.min.js"></script>
 <script>
 $(function(){
     document.socket = io.connect('http://api.m-ph.org:3000');
+
     bubbleManager = $('#canvas').bubbleManager({
         max: 100,
         button: '#button',
@@ -23,6 +26,8 @@ $(function(){
 	magForm: '#magForm',
 	colorForm: '#colForm'
     });
+
+    document.gestureManager = new GestureManager( document.getElementById("body") ); 
 
     var chatManager = $('#buttons').chatManager({
 	box : '#presetBox',
@@ -63,7 +68,7 @@ $(function(){
 });
 </script>
 </head>
-  <body>
+  <body id="body">
    <div id="contents">
     <button id="swing">応援</button><br />
     <div id="swing0_wrapper"><div id="swing0_meter"></div><div id="swing0_number">my swing</div></div>
