@@ -55,11 +55,8 @@ $(function(){
     });
 
   // this should be contained in the class, yet just copy it now
-  function draw_meter( id, mag, color, grand_mag ) {
-    if( grand_mag ) 
-      $('#'+id+'_number').html(Math.round(mag)+"/"+Math.round(grand_mag));
-    else
-      $('#'+id+'_number').html(Math.round(mag));
+  function draw_meter( id, mag, color ) {
+    $('#'+id+'_number').html(Math.round(mag));
     var sp = Math.sqrt(parseFloat(mag))/100;
     if( 1 < sp ) sp = 1;
     if( 0 > sp ) sp = 0;
@@ -74,6 +71,7 @@ $(function(){
   <body id="body">
    <div id="contents">
     <button id="swing">応援</button><br />
+    <div id="swing0_ground_number">my grand swing</div>
     <div id="swing0_wrapper"><div id="swing0_meter"></div><div id="swing0_number">my swing</div></div>
     <div id="swing1_wrapper"><div id="swing1_meter"></div><div id="swing1_number">total swing</div></div>
     <div>

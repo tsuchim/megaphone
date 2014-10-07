@@ -71,7 +71,7 @@ io.sockets.on('connection', function (socket) {
     var mag = Math.min( obj.mag, 100 );
     swings[cid]["mag"] = mag;
     // 累積
-    if( ! ( cid in grandSwings ) ) grandSwings[cid] = {};
+    if( ! ( cid in grandSwings ) ) grandSwings[cid] = { "mag":0};
     grandSwings[cid]["mag"] += mag;
     // color 
     var r = Math.round((1.5*obj.color+1)*128);
