@@ -1,3 +1,22 @@
+if (!String.prototype.encodeHTML) {
+    String.prototype.encodeHTML = function () {
+	return this.replace(/&/g, '&amp;')
+	.replace(/</g, '&lt;')
+	.replace(/>/g, '&gt;')
+	.replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
+  };
+}
+if (!String.prototype.decodeHTML) {
+    String.prototype.decodeHTML = function () {
+	return this.replace(/&apos;/g, "'")
+	.replace(/&quot;/g, '"')
+	.replace(/&gt;/g, '>')
+	.replace(/&lt;/g, '<')
+	.replace(/&amp;/g, '&');
+    };
+}
+
 $(function() {
   var socket = io.connect('http://api.m-ph.org:3000');
   socket.on('connect', function() {
@@ -13,8 +32,12 @@ $(function() {
   });
   // trigger for receiving msg from server
   socket.on('push msg', function (msg) {
-    //console.log(msg);
-    $('#msglist').prepend($('<div>' + msg + '</div>'));
+    console.log(msg);
+    $('#msglist').prepend($('<div>' + msg.encodeHTML() + '</div>'));
+      if( ( $("#msglist").height() ) > $(window).height() ){
+	  $('#msglist').children("div").last().remove();
+      }
+
   });
 
   // send swing magnitude by hand
@@ -36,11 +59,12 @@ $(function() {
 */
 
   socket.on('push swing', function (json) {
+    // console.log(' push swing = '+json);
     var obj = JSON.parse(json);
     draw_meter('swing0',obj.self_mag,obj.self_color);
     draw_meter('swing1',obj.total_mag);
+    $('#swing0_ground_number').html(Math.round(obj.self_grand_mag));
   });
-
 
 
   function draw_meter( id, mag, color ) {
@@ -64,7 +88,7 @@ $(function() {
 	var c = -y/m;
 	var obj = { mag: mag, color: c } // mag:magnitude(0-99), color:color parameter(-1 to 1)
 	socket.emit('send swing', JSON.stringify(obj) );
-	draw_meter('swing0',mag);
+	// draw_meter('swing0',mag);
     }
   }, true);
 

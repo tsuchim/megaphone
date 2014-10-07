@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=640">
+    <meta name="viewport" content="width=640, target-densitydpi=device-dpi, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>MegaPhone Concept</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
@@ -13,9 +13,12 @@
     <script type="text/javascript" src="/javascripts/bubbleInfo.js"></script>
     <script type="text/javascript" src="/javascripts/bubbleManager.js"></script>
     <script type="text/javascript" src="/javascripts/chatManager.js"></script>
+    <script type="text/javascript" src="/javascripts/GestureManager.js"></script>
+    <script type="text/javascript" src="/javascripts/hammer.min.js"></script>
 <script>
 $(function(){
     document.socket = io.connect('http://api.m-ph.org:3000');
+
     bubbleManager = $('#canvas').bubbleManager({
         max: 100,
         button: '#button',
@@ -24,9 +27,11 @@ $(function(){
 	colorForm: '#colForm'
     });
 
+    document.gestureManager = new GestureManager( document.getElementById("body") ); 
+
     var chatManager = $('#buttons').chatManager({
 	box : '#presetBox',
-	labels: [ 'チャンス!', 'やったー', 'ナイス!!' ]
+	labels: [ 'チャンス!', 'やったー', 'ナイス!!', 'ドンマイ' ]
     });
 
     document.socket.on('push swings', function (json) {
@@ -63,17 +68,20 @@ $(function(){
 });
 </script>
 </head>
-  <body>
+  <body id="body">
    <div id="contents">
+    <div id="canvas"></div>
+    <div id='commands'>
     <button id="swing">応援</button><br />
-    <div id="swing0_wrapper"><div id="swing0_meter"></div><div id="swing0_number">my swing</div></div>
-    <div id="swing1_wrapper"><div id="swing1_meter"></div><div id="swing1_number">total swing</div></div>
+    <div id="swing0_ground_number">累計応援</div>
+    <div id="swing0_wrapper"><div id="swing0_meter"></div><div id="swing0_number">私の応援</div></div>
+    <div id="swing1_wrapper"><div id="swing1_meter"></div><div id="swing1_number">みんなの応援</div></div>
     <div>
-    chat : <input type="text" name="message" id="message" /><button id="btn">送信</button>
+     声援 <input type="text" name="message" id="message" style="width:420px"/><button id="btn">送信</button>
     <div id='presetBox'></div>
+    </div>
     <div id="msglist"></div>
     </div>
-    <div id="canvas"></div>
    </div>
   </body>
 </html>

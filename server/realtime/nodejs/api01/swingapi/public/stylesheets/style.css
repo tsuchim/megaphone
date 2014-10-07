@@ -7,6 +7,7 @@ body {
 div#contents {
   width:640px;
   padding: 10px;
+  margin: 0 auto;
 }
 
 a {
@@ -15,6 +16,14 @@ a {
 
 button#swing, input.button {
   padding: 5px 20px;
+}
+
+button#swing {
+  width: 99%;
+}
+div#presetBox input.button {
+  padding: 20px;
+  width: 45%;
 }
 
 div#swing0_wrapper, div#swing1_wrapper {
@@ -31,6 +40,9 @@ div#swing0_meter, div#swing1_meter {
   z-index: -10;
 }
 
+div#swing0_ground_number {
+  float:right;
+}
 div#swing0_meter {
   background-color: #FA0;
 }
