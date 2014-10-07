@@ -1,3 +1,22 @@
+if (!String.prototype.encodeHTML) {
+    String.prototype.encodeHTML = function () {
+	return this.replace(/&/g, '&amp;')
+	.replace(/</g, '&lt;')
+	.replace(/>/g, '&gt;')
+	.replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
+  };
+}
+if (!String.prototype.decodeHTML) {
+    String.prototype.decodeHTML = function () {
+	return this.replace(/&apos;/g, "'")
+	.replace(/&quot;/g, '"')
+	.replace(/&gt;/g, '>')
+	.replace(/&lt;/g, '<')
+	.replace(/&amp;/g, '&');
+    };
+}
+
 $(function() {
   var socket = io.connect('http://api.m-ph.org:3000');
   socket.on('connect', function() {
@@ -14,8 +33,8 @@ $(function() {
   // trigger for receiving msg from server
   socket.on('push msg', function (msg) {
     console.log(msg);
-    $('#msglist').prepend($('<div>' + msg + '</div>'));
-      if( ( $("#commands").height() + $("#msglist").height() ) > $(window).height() ){
+    $('#msglist').prepend($('<div>' + msg.encodeHTML() + '</div>'));
+      if( ( $("#msglist").height() ) > $(window).height() ){
 	  $('#msglist').children("div").last().remove();
       }
 
