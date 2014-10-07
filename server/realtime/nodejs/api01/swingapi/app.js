@@ -54,6 +54,7 @@ io.sockets.on('connection', function (socket) {
 
   // trigger by API commands
   socket.on('send msg', function (msg) {
+    console.log('msg : '+msg );
     // echo back 
     socket.emit('push msg', msg);
     // broadcast
