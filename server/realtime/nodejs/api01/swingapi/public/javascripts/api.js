@@ -40,11 +40,12 @@ $(function() {
 */
 
   socket.on('push swing', function (json) {
+    // console.log(' push swing = '+json);
     var obj = JSON.parse(json);
     draw_meter('swing0',obj.self_mag,obj.self_color);
     draw_meter('swing1',obj.total_mag);
+    $('#swing0_ground_number').html(Math.round(obj.self_grand_mag));
   });
-
 
 
   function draw_meter( id, mag, color ) {
@@ -68,7 +69,7 @@ $(function() {
 	var c = -y/m;
 	var obj = { mag: mag, color: c } // mag:magnitude(0-99), color:color parameter(-1 to 1)
 	socket.emit('send swing', JSON.stringify(obj) );
-	draw_meter('swing0',mag);
+	// draw_meter('swing0',mag);
     }
   }, true);
 

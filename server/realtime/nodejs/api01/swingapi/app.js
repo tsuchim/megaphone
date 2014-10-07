@@ -48,6 +48,7 @@ io.set('log level', 2);
 var totalSwingMagnitude = 0;
 var id2cid = {}; // socket.id を cid (Client ID)に焼き直す [ id : cid ]
 var swings = {}; // 各々の swing [ cid : [ mag, color ] ]
+var grandSwings = {}; // 各々の累計 grandswing [ cid : [ mag ] ]
 // connection loop
 io.sockets.on('connection', function (socket) {
 
@@ -69,6 +70,9 @@ io.sockets.on('connection', function (socket) {
     // 最大100
     var mag = Math.min( obj.mag, 100 );
     swings[cid]["mag"] = mag;
+    // 累積
+    if( ! ( cid in grandSwings ) ) grandSwings[cid] = { "mag":0};
+    grandSwings[cid]["mag"] += mag;
     // color 
     var r = Math.round((1.5*obj.color+1)*128);
     if( 255 < r ) r = 'ff';
@@ -83,7 +87,10 @@ io.sockets.on('connection', function (socket) {
     swings[cid]["lasttime"] = parseInt((new Date)/1000);
 
     // feedback self swing
-    var obj = { total_mag: totalSwingMagnitude, self_mag: obj.mag, self_color: color };
+    var obj = { total_mag: totalSwingMagnitude,
+		self_mag: obj.mag,
+		self_color: color,
+		self_grand_mag: grandSwings[cid]["mag"] };
     socket.emit('push swing', JSON.stringify(obj) );
 
     // console.log('swing mag='+obj.mag+' color='+color+' id='+socket.id+' cid='+cid);

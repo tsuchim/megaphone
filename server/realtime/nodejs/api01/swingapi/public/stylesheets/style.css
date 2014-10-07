@@ -31,6 +31,9 @@ div#swing0_meter, div#swing1_meter {
   z-index: -10;
 }
 
+div#swing0_ground_number {
+  float:right;
+}
 div#swing0_meter {
   background-color: #FA0;
 }
