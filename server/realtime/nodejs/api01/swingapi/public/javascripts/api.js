@@ -15,6 +15,10 @@ $(function() {
   socket.on('push msg', function (msg) {
     //console.log(msg);
     $('#msglist').prepend($('<div>' + msg + '</div>'));
+      if( ( $("#commands").height() + $("#msglist").height() ) > $(window).height() ){
+	  $('#msglist').children("div").last().remove();
+      }
+
   });
 
   // send swing magnitude by hand
