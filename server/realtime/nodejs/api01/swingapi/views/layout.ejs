@@ -55,8 +55,11 @@ $(function(){
     });
 
   // this should be contained in the class, yet just copy it now
-  function draw_meter( id, mag, color ) {
-    $('#'+id+'_number').html(Math.round(mag));
+  function draw_meter( id, mag, color, grand_mag ) {
+    if( grand_mag ) 
+      $('#'+id+'_number').html(Math.round(mag)+"/"+Math.round(grand_mag));
+    else
+      $('#'+id+'_number').html(Math.round(mag));
     var sp = Math.sqrt(parseFloat(mag))/100;
     if( 1 < sp ) sp = 1;
     if( 0 > sp ) sp = 0;

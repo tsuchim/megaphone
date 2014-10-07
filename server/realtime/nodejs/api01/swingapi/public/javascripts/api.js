@@ -37,14 +37,16 @@ $(function() {
 
   socket.on('push swing', function (json) {
     var obj = JSON.parse(json);
-    draw_meter('swing0',obj.self_mag,obj.self_color);
+    draw_meter('swing0',obj.self_mag,obj.self_color,obj.self_grand_mag);
     draw_meter('swing1',obj.total_mag);
   });
 
 
-
-  function draw_meter( id, mag, color ) {
-    $('#'+id+'_number').html(Math.round(mag));
+  function draw_meter( id, mag, color, grand_mag ) {
+    if( grand_mag ) 
+      $('#'+id+'_number').html(Math.round(mag)+"/"+Math.round(grand_mag));
+    else
+      $('#'+id+'_number').html(Math.round(mag));
     var sp = Math.sqrt(parseFloat(mag))/100;
     if( 1 < sp ) sp = 1;
     if( 0 > sp ) sp = 0;
