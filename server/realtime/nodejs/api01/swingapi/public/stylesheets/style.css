@@ -17,6 +17,14 @@ button#swing, input.button {
   padding: 5px 20px;
 }
 
+button#swing {
+  width: 99%;
+}
+div#presetBox input.button {
+  padding: 20px;
+  width: 45%;
+}
+
 div#swing0_wrapper, div#swing1_wrapper {
   width: 100%;
   font-size: 21pt;
@@ -45,5 +53,6 @@ div#msglist {
     overflow : scroll;
     position : absolute;
     z-index : 0;
+    height : 100%;
     width : 100%;
 }
