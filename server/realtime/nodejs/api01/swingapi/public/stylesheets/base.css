@@ -11,11 +11,6 @@ div#canvas {
 }
 
 
-input#message{
-    width : 300px;
-
-}
-
 input.button, button{
     font-size: 40px;
     margin : 10px;

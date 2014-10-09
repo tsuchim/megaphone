@@ -5,7 +5,7 @@ body {
 }
 
 div#contents {
-  width:640px;
+  width: 640px;
   padding: 10px;
   margin: 0 auto;
 }
@@ -25,7 +25,18 @@ div#presetBox input.button {
   padding: 20px;
   width: 45%;
 }
-
+div#commands {
+  font-size:20px;
+}
+input#message {
+  width:520px;
+  font-size:20px;
+  margin-left:10px;
+}
+input#btn {
+  padding:20px 5px;
+  font-size:20px;
+}
 div#swing0_wrapper, div#swing1_wrapper {
   width: 100%;
   font-size: 21pt;
