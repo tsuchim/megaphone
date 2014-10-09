@@ -29,6 +29,8 @@ $(function() {
     // console.log(message);
     // push msg command to server
     socket.emit('send msg', message.val());
+    // unforcus from chat input
+    $("#message").val("").blur();
   });
   // trigger for receiving msg from server
   socket.on('push msg', function (msg) {
@@ -42,7 +44,7 @@ $(function() {
 
   // send swing magnitude by hand
   $('#swing').click(function() {
-    var magnitude = 50;
+    var magnitude = 10;
     // push magnitude command to server
     var obj = { mag: magnitude, color: 0 }
     socket.emit('send swing', JSON.stringify(obj) );

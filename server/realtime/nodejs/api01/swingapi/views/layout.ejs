@@ -31,7 +31,7 @@ $(function(){
 
     var chatManager = $('#buttons').chatManager({
 	box : '#presetBox',
-	labels: [ 'チャンス!', 'やったー', 'ナイス!!', 'ドンマイ' ]
+	labels: [ 'チャンス!', 'やったー!', 'ナイス!!', 'ドンマイ' ]
     });
 
     document.socket.on('push swings', function (json) {
@@ -72,16 +72,19 @@ $(function(){
    <div id="contents">
     <div id="canvas"></div>
     <div id='commands'>
-    <button id="swing">応援</button><br />
-    <div id="swing0_ground_number">累計応援</div>
-    <div id="swing0_wrapper"><div id="swing0_meter"></div><div id="swing0_number">私の応援</div></div>
-    <div id="swing1_wrapper"><div id="swing1_meter"></div><div id="swing1_number">みんなの応援</div></div>
+     <button id="swing">応援</button><br />
+     <div id="swing0_ground_number">累計応援</div>
+     <div id="swing0_wrapper"><div id="swing0_meter"></div><div id="swing0_number">私の応援</div></div>
+     <div id="swing1_wrapper"><div id="swing1_meter"></div><div id="swing1_number">みんなの応援 (接続中...)</div></div>
+     <form name='chatform' onSubmit="return false;">
+      <input type="text" name="message" id="message" placeholder="声援を送りましょう!"/><input type="submit" id="btn" value="声援"></input>
+     </form>
+    </div>
     <div>
-     声援 <input type="text" name="message" id="message" style="width:420px"/><button id="btn">送信</button>
-    <div id='presetBox'></div>
+     <div style="font-size:16px; padding:10px 0px 0px 20px;">プリセットチャットスタンプ</div>
+     <div id='presetBox'></div>
     </div>
     <div id="msglist"></div>
-    </div>
    </div>
   </body>
 </html>
