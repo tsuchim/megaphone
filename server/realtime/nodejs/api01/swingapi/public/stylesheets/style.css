@@ -76,11 +76,11 @@ div#swing1_meter {
 }
 
 div#msglist {
-    overflow : scroll;
+    overflow : hidden;
     position : absolute;
     z-index : 0;
     height : 100%;
-    width : 100%;
+    width : 640px;
 }
 
 div.bubble {
