@@ -1,5 +1,5 @@
 body {
-  font: 32px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size: 32px;
   background-image : url("../images/baseball.jpg");
   background-size : cover;
 }
@@ -10,12 +10,22 @@ div#contents {
   margin: 0 auto;
 }
 
+div#canvas {
+  possition: absolute;
+  width: 640px;
+  z-index : 10;
+  height : 100%;
+}
+
 a {
   color: #00B7FF;
 }
 
 button#swing, input.button {
   padding: 5px 20px;
+  font-size: 40px;
+  margin: 10px;
+  line-height: 60px;
 }
 
 button#swing {
@@ -23,19 +33,23 @@ button#swing {
 }
 div#presetBox input.button {
   padding: 20px;
-  width: 45%;
+  width: 300px;
 }
+
+input[type="button"], input[type="text"] {
+  font-size: 32px;
+}
+
 div#commands {
   font-size:20px;
 }
 input#message {
   width:520px;
-  font-size:20px;
   margin-left:10px;
 }
 input#btn {
-  padding:20px 5px;
-  font-size:20px;
+  padding:5px;
+  font-size:24px;
 }
 div#swing0_wrapper, div#swing1_wrapper {
   width: 100%;
@@ -68,3 +82,22 @@ div#msglist {
     height : 100%;
     width : 100%;
 }
+
+div.bubble {
+    border : 1px solid gray;
+    padding : 1px;
+    margin-bottom : 0px;
+}
+
+
+/*
+input.button, button{
+    font-size: 40px;
+    margin : 10px;
+    line-height : 60px;
+}
+
+input {
+    line-height : 60px;
+}
+*/

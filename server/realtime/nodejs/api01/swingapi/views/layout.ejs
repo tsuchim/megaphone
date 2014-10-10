@@ -2,11 +2,10 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=640, target-densitydpi=device-dpi, user-scalable=0">
+    <meta name="viewport" content="width=640, target-densitydpi=device-dpi, maximum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>MegaPhone Concept</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel='stylesheet' href='/stylesheets/base.css' />
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="/javascripts/api.js"></script>
@@ -71,13 +70,14 @@ $(function(){
   <body id="body">
    <div id="contents">
     <div id="canvas"></div>
+    <div><a href="https://tsuchim.github.io/megaphone/howtouse.html">MegaPhone の楽しみ方</a></div>
     <div id='commands'>
      <button id="swing">応援</button><br />
      <div id="swing0_ground_number">累計応援</div>
      <div id="swing0_wrapper"><div id="swing0_meter"></div><div id="swing0_number">私の応援</div></div>
      <div id="swing1_wrapper"><div id="swing1_meter"></div><div id="swing1_number">みんなの応援 (接続中...)</div></div>
      <form name='chatform' onSubmit="return false;">
-      <input type="text" name="message" id="message" placeholder="声援を送りましょう!"/><input type="submit" id="btn" value="声援"></input>
+      <input type="text" name="message" id="message" placeholder="声援を送りましょう!"/><input type="submit" id="btn" value="送信"></input>
      </form>
     </div>
     <div>
