@@ -10,6 +10,13 @@ div#contents {
   margin: 0 auto;
 }
 
+div#canvas {
+  possition: absolute;
+  width: 640px;
+  z-index : 10;
+  height : 100%;
+}
+
 a {
   color: #00B7FF;
 }
@@ -82,11 +89,6 @@ div.bubble {
     margin-bottom : 0px;
 }
 
-div#canvas {
-    width:100%;
-    z-index : 10;
-    height : 100%;
-}
 
 /*
 input.button, button{
