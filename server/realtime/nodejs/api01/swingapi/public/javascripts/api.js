@@ -55,11 +55,15 @@ $(function() {
   });
 
   // draw meter and digit
+  var id0_mag_max = 0;
+  var id0_mag_max_timer;
   window.draw_meter = function( id, mag, color ) {
-    var id0_mag_max = 0;
-    if( id==0 ) {
+    if( id=='swing0' ) {
+      // peak holding
       if( id0_mag_max < mag ) {
         id0_mag_max = mag;
+	if( id0_mag_max_timer ) clearTimeout(id0_mag_max_timer);
+	id0_mag_max_timer = setTimeout("reset_id0_mag_max()", 3000);
       }else{
         mag = id0_mag_max;
       }
@@ -71,6 +75,9 @@ $(function() {
     var wd = parseInt( $('#'+id+'_wrapper').width()*sp );
     if( 0 <= wd ) $('#'+id+'_meter').css('width',wd+'px');
     if( color ) $('#'+id+'_meter').css('background-color','#'+color);
+  }
+  window.reset_id0_mag_max = function() {
+    id0_mag_max = 0;
   }
 
   // send swing magnitude by sensor
