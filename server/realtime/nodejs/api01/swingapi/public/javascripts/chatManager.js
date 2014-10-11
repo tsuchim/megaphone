@@ -4,6 +4,7 @@ $.fn.chatManager = function(options) {
 
     var sendMessage = function( message ){
 	document.socket.emit('send msg', message );
+	$('div#chat_form').slideToggle('fast');
     }
 
     var stampButton = function( event ){

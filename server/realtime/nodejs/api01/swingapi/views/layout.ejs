@@ -1,90 +1,106 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=640, target-densitydpi=device-dpi, maximum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>MegaPhone Concept</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="/javascripts/api.js"></script>
-    <script type="text/javascript" src="/javascripts/bubbleInfo.js"></script>
-    <script type="text/javascript" src="/javascripts/bubbleManager.js"></script>
-    <script type="text/javascript" src="/javascripts/chatManager.js"></script>
-    <script type="text/javascript" src="/javascripts/GestureManager.js"></script>
-    <script type="text/javascript" src="/javascripts/hammer.min.js"></script>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>MegaPhone Concept</title>
+<link rel='stylesheet' href='stylesheets/style.css' />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="/javascripts/api.js"></script>
+<script type="text/javascript" src="/javascripts/bubbleInfo.js"></script>
+<script type="text/javascript" src="/javascripts/bubbleManager.js"></script>
+<script type="text/javascript" src="/javascripts/chatManager.js"></script>
+<script type="text/javascript" src="/javascripts/GestureManager.js"></script>
+<script type="text/javascript" src="/javascripts/hammer.min.js"></script>
 <script>
+document.socket = io.connect('http://api.m-ph.org:3000');
 $(function(){
-    document.socket = io.connect('http://api.m-ph.org:3000');
-
+    // var mp = new MegaPhone;
     bubbleManager = $('#canvas').bubbleManager({
         max: 100,
         button: '#button',
-	idForm: '#idForm',
-	magForm: '#magForm',
-	colorForm: '#colForm'
+        idForm: '#idForm',
+        magForm: '#magForm',
+        colorForm: '#colForm'
     });
 
     document.gestureManager = new GestureManager( document.getElementById("body") ); 
 
     var chatManager = $('#buttons').chatManager({
-	box : '#presetBox',
-	labels: [ 'チャンス!', 'やったー!', 'ナイス!!', 'ドンマイ' ]
+       box : '#presetBox',
+       labels: [ 'チャンス!', 'やったー!', 'ナイス!!', 'ドンマイ' ]
     });
 
     document.socket.on('push swings', function (json) {
-	var obj = JSON.parse(json);
-	var currentIds = $('#canvas').bubbleManager.ids();
-	for( var id in obj.swings ){
-	    var swinginfo = obj.swings[id];
-	    if( swinginfo.mag > 1 ){
-		$('#canvas').bubbleManager.addBubble( id, swinginfo.mag, '#'+swinginfo.color);
-	    }
-	}
+      var obj = JSON.parse(json);
+      var currentIds = $('#canvas').bubbleManager.ids();
+      for( var id in obj.swings ){
+        var swinginfo = obj.swings[id];
+        if( swinginfo.mag > 1 ){
+          $('#canvas').bubbleManager.addBubble( id, swinginfo.mag, '#'+swinginfo.color);
+        }
+      }
 
-	for( var cid in currentIds ){
-	    if( ! obj.swings[ cid ] ){
-		$('#canvas').bubbleManager.removeBubble( cid );
-	    }
-	}
-        // draw meter
-        draw_meter('swing1',obj.total_mag);
-        draw_meter('swing0',0);
+      for( var cid in currentIds ){
+        if( ! obj.swings[ cid ] ){
+          $('#canvas').bubbleManager.removeBubble( cid );
+        }
+      }
+      
+      // draw meter
+      draw_meter('swing1',obj.total_mag);
+      draw_meter('swing0',0);
+      $('#swing1_ground_number').html(Math.round(obj.total_grand_mag));
     });
-
-  // this should be contained in the class, yet just copy it now
-  function draw_meter( id, mag, color ) {
-    $('#'+id+'_number').html(Math.round(mag));
-    var sp = Math.sqrt(parseFloat(mag))/100;
-    if( 1 < sp ) sp = 1;
-    if( 0 > sp ) sp = 0;
-    var wd = parseInt( $('#'+id+'_wrapper').width()*sp );
-    if( 0 <= wd ) $('#'+id+'_meter').css('width',wd+'px');
-    if( color ) $('#'+id+'_meter').css('background-color','#'+color);
-  }
-
 });
+
+$(document).ready(function(){
+  // チャットフォームの開閉
+  $('h1#chat_head').click(function(){
+    $('div#chat_form').slideToggle('fast');
+    var p = $('h1#chat_head').offset().top;
+    $('html,body').animate({ scrollTop: p }, 'fast');
+  });
+});
+
 </script>
 </head>
-  <body id="body">
-   <div id="contents">
-    <div id="canvas"></div>
-    <div><a href="https://tsuchim.github.io/megaphone/howtouse.html">MegaPhone の楽しみ方</a></div>
-    <div id='commands'>
-     <button id="swing">応援</button><br />
-     <div id="swing0_ground_number">累計応援</div>
-     <div id="swing0_wrapper"><div id="swing0_meter"></div><div id="swing0_number">私の応援</div></div>
-     <div id="swing1_wrapper"><div id="swing1_meter"></div><div id="swing1_number">みんなの応援 (接続中...)</div></div>
-     <form name='chatform' onSubmit="return false;">
-      <input type="text" name="message" id="message" placeholder="声援を送りましょう!"/><input type="submit" id="btn" value="送信"></input>
-     </form>
+<body id="body">
+<div id="contents">
+  <header></header>
+  <div id="canvas"></div>
+  <div id="wrapp">
+    <div class="inner_wrapp">
+      <div id='commands'>
+        <button id="swing"><img src="images/btm_yell.gif" alt="ふりふりorタッチで応援しよう"></button>
+        <div id="swing0_ground_wrapper" class="yell cf"><h2>累計応援</h2><div id="swing0_ground_number" class="yell_num">(接続中...)</div></div>
+        <div id="swing0_wrapper" class="yell cf"><h2>私の応援</h2><div id="swing0_meter"></div><div id="swing0_number" class="yell_num">(接続中...)</div></div>
+        <div id="swing1_wrapper" class="yell cf"><h2>みんなの応援</h2><div id="swing1_meter"></div><div id="swing1_number" class="yell_num">(接続中...)</div></div>
+        <div id="swing1_ground_wrapper" class="yell cf"><h2>みんなの累計</h2><div id="swing1_ground_number" class="yell_num">(接続中...)</div></div>
+      </div>
+      <h1 id="chat_head" title="クリックでチャットフォームを開く">■声援を送る</h1>
+      <div id="chat_form">    
+        <form name='chatform' onSubmit="javascript:return false;" class="cf msg">
+          <input type="text" name="message" id="message" placeholder="声援を送りましょう!"/><input type="submit" id="btn" value="送信" />
+        </form>
+        <div id="preset">
+          <div id='presetBox' class="cf"></div>
+        </div>
+      </div>
+      <div id="msglist"><div></div></div>
     </div>
-    <div>
-     <div style="font-size:16px; padding:10px 0px 0px 20px;">プリセットチャットスタンプ</div>
-     <div id='presetBox'></div>
+  </div>
+  <footer><div id="sns" class="cf">
+      <div id="howtouse"><a href="https://tsuchim.github.io/megaphone/howtouse.html" target="_blank">つかいかた</a></div>
+      <div id="twt">
+<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://m-ph.org" data-text="MegaPhoneでカープ応援中" data-via="mega0phone" data-lang="ja" data-size="large" data-related="mega0phone">ツイート</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+      </div>
     </div>
-    <div id="msglist"></div>
-   </div>
-  </body>
+    <div style="clear:both;"></div>
+    <div style="font-size:small">&copy; MegaPhone / Eikai Intelligent Systems</div></footer>
+</div>
+</body>
 </html>

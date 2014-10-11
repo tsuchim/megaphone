@@ -1,103 +1,306 @@
+@charset "utf-8";
+/* reset */
 body {
-  font-size: 32px;
-  background-image : url("../images/baseball.jpg");
-  background-size : cover;
+	line-height: 1;
+	margin: 0;
 }
-
-div#contents {
-  width: 640px;
-  padding: 10px;
-  margin: 0 auto;
+h1, h2, h3, h4, h5, h6, p {
+	font-size: 100%;
+	margin: 0;
 }
-
-div#canvas {
-  possition: absolute;
-  width: 640px;
-  z-index : 10;
-  height : 100%;
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
 }
-
+img {
+	vertical-align: middle;
+}
+hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid #cccccc;
+	margin: 1em 0;
+	padding: 0;
+}
+ul {
+	list-style: none;
+	padding: 0;
+}
+li {
+	padding: 0;
+}
+input, select {
+	vertical-align: middle;
+}
 a {
-  color: #00B7FF;
+	display: block;
+}
+a {
+	-webkit-tap-highlight-color: transparent;
+}
+button, input {
+	margin: 0;
+	padding: 0;
+	display: block;
+	font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+}
+.cf {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+.cf:after {
+	clear: both;
+	content: ".";
+	display: block;
+	height: 0;
+	visibility: hidden;
 }
 
-button#swing, input.button {
-  padding: 5px 20px;
-  font-size: 40px;
-  margin: 10px;
-  line-height: 60px;
+/*-----------------
+	ベース
+-----------------*/
+/*共通*/
+body {
+	width: 100%;
+	font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+	color: #333333;
 }
-
+button, input[type="button"] {
+	color: #333333;
+	cursor: pointer;
+}
+html, body {
+	height: 100%;
+}
+#contents {
+	background: url(../images/bg_apli.gif) #CCF2B0 no-repeat;
+	font-size: 16px;
+	width: 100%;
+	position: relative;
+	height: auto !important;
+	height: 100%;
+	min-height: 100%;
+	background-size:100%;
+}
+.cs_title {
+	font-size: 36px;
+}
+.m-ph_link {
+	font-size: x-large;
+}
+/*ヘッダー*/
+h1>img {
+	width: 100%;
+	height: auto;
+}
+/*コンテンツ（wrapp）*/
+p>img {
+	width: 100%;
+	height: auto;
+}
+div#wrapp {
+	margin-bottom: 55px;
+}
+.inner_wrapp {
+	margin: 10px;
+}
 button#swing {
-  width: 99%;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 2%;
+	padding-bottom: 2%;
+	width: 100%;
+	font-size: 40px;
+	cursor: pointer;
+	margin-bottom: 3%;
+	border: none;
+	border-radius: 10px;
+	background: #ff5741;
 }
-div#presetBox input.button {
-  padding: 20px;
-  width: 300px;
+button#swing img {
+	width: 100%;
+	height: auto;
 }
+button#swing:active {
+	margin-top: 2px;
+	margin-left: 2px;
+}
+h2 {
+	padding: 0px 0px 10px 35px;
+	background: none;
+	color: #333333;
+	text-align: left;
+	background: url(../images/mark_megaphone.png) no-repeat;
+	border-bottom: 2px solid #F9B600;
+	color: #666666;
+	margin-bottom: 20px;
+}
+.yell {
+	padding: 5px 0 0 35px;
+	background: none;
+	color: #333333;
+	text-align: left;
+	border-bottom: 1px solid #888888;
+	color: #666666;
+	margin-bottom: 5px;
+	background: url(../images/mark_redmet.png) no-repeat;
+}
+.yell h2 {
+	padding: 0;
+	clear: both;
+	background: none;
+	color: #333333;
+	text-align: left;
+	color: #666666;
+	float: left;
+	border: none;
+	margin-bottom: 10px;
+}
+.yell_num {
+        position: absolute;
+	color: #666666;
+	margin-bottom: 10px;
+	right: 10px;
+	margin-right: 3%;
+	z-index: 10;
+}
+div#swing0_meter, div#swing1_meter {
+    position: absolute;
+    height: 20px;
+    margin-top:-2px;
+    width: 1px;
+    background-color:red;
+    right: 20px;
+    z-index: 0;
+}
+.inner_wrapp h3 {
+	color: #4D9618;
+}
+.msg {
+	margin: 15px 0;
 
-input[type="button"], input[type="text"] {
-  font-size: 32px;
+	
 }
-
-div#commands {
-  font-size:20px;
-}
-input#message {
-  width:520px;
-  margin-left:10px;
+#message {
+	padding:12px 2%;
+	width: 80%;
+	float: left;
 }
 input#btn {
-  padding:5px;
-  font-size:24px;
+	padding: 15px 2%;
+	float: right;
+	margin-left: auto;
+	margin-right: auto;
+	width: 15%;
+	cursor: pointer;
+	line-height:1em;
+	border:none;
+	border-radius: 5px;
+	background:#c0c0c0;
+	font-weight:600;
+
 }
-div#swing0_wrapper, div#swing1_wrapper {
-  width: 100%;
-  font-size: 21pt;
-  height: 32px;
+#preset {
+	margin: 15px 0;
 }
 
-div#swing0_meter, div#swing1_meter {
-  float: left;
-  position: absolute;
-  width:0%;
-  height: 32px;
-  z-index: -10;
+#presetBox input {
+    border:1px solid #434343;
+    background: #ff5741;
+    border-radius: 5px;
+    background:#868585;
+    width: 49%;
+    float: left;
+    padding: 8px 0;
+    margin-bottom:5px;
+    font-weight:600;
+    font-size:1.1em;
+    color:#ffffff;
 }
-
-div#swing0_ground_number {
-  float:right;
+#presetBox input:nth-child(2n) {
+	float: right;
 }
-div#swing0_meter {
-  background-color: #FA0;
+#msglist {
+	background: url(../images/bg_wt.png);
+	border-radius: 5px;
 }
-div#swing1_meter {
-  background-color: #F00;
+#msglist div {
+	margin: 5px;
+	padding-top: 5px;
 }
-
-div#msglist {
-    overflow : scroll;
-    position : absolute;
-    z-index : 0;
-    height : 100%;
-    width : 100%;
+div#chat_form {
+    display: none;
+    border-radius: 0 0 10px 10px;
+    padding: 10px;
+    margin-bottom: 60px;
+    background: #aaffcc;
 }
-
-div.bubble {
-    border : 1px solid gray;
-    padding : 1px;
-    margin-bottom : 0px;
+h1#chat_head {
+    cursor: pointer;
+    font-size: 20px;
+    padding-top: 2px;
+    padding-left: 10px;
+    border-radius: 10px 10px 0 0;
+    background: #aaffcc;
 }
-
-
-/*
-input.button, button{
-    font-size: 40px;
-    margin : 10px;
-    line-height : 60px;
+h1#chat_head:hover {
+    margin-left:0px;
+    background: #ccffdd;
 }
-
-input {
-    line-height : 60px;
+/*フッター*/
+footer {
+	border-top:2px solid #FFFFFF;
+	background: #ff5741;
+	text-align: center;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 50px;
+	padding-top: 10px;
+	z-index: 999;
 }
-*/
+#sns {
+	// margin: 0 2% 3% 2%;
+       margin: 2px;
+}
+#sns div {
+	width: 49%;
+	float: left;
+}
+#sns div a {
+	height: 28px;
+}
+#sns div a img {
+	height: 100%;
+	width: auto;
+}
+#howtouse {
+	height:28px;
+}
+#howtouse a {
+	display: block;
+	text-align: center;
+	border-radius: 5px;
+	background: #f9b600;
+	text-decoration: none;
+	color: #ffffff;
+	font-size: 1.4em;
+	font-weight: 400;
+}
+#sns div#twt {
+	float: right;
+	height:28px;
+	border-radius: 5px;
+	background-color: #88CCFF;
+}
+div#twt a {
+	font-size: 10px;
+}
+div#widget{
+    text-align:center;
+    width: 162px;
+    margin: 0 auto;
+}
+small {
+	color: #ffffff;
+}
