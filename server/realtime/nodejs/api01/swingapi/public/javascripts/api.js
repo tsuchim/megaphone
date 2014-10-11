@@ -44,7 +44,7 @@ $(function() {
 
   // send swing magnitude by hand
   $('#swing').click(function() {
-    var magnitude = 10;
+    var magnitude = Math.round(Math.random()*10+10);
     // push magnitude command to server
     var obj = { mag: magnitude, color: 0 }
     socket.emit('send swing', JSON.stringify(obj) );
@@ -68,14 +68,21 @@ $(function() {
     $('#swing0_ground_number').html(Math.round(obj.self_grand_mag));
   });
 
-
+  var id0_mag_max = 0;
   function draw_meter( id, mag, color ) {
+    if( id==0 ) {
+      if( id0_mag_max < mag ) {
+        id0_mag_max = mag;
+      }else{
+        mag = id0_mag_max;
+      }
+    }
     $('#'+id+'_number').html(Math.round(mag));
     var sp = Math.sqrt(parseFloat(mag))/100;
     if( 1 < sp ) sp = 1;
     if( 0 > sp ) sp = 0;
     var wd = parseInt( $('#'+id+'_wrapper').width()*sp );
-    if( wd ) $('#'+id+'_meter').css('width',wd+'px');
+    if( 0 <= wd ) $('#'+id+'_meter').css('width',wd+'px');
     if( color ) $('#'+id+'_meter').css('background-color','#'+color);
   }
 
@@ -102,5 +109,5 @@ $(function() {
     socket.emit('get total swing');
   }, 1000 );
   */
-});
+})(MegaPhone);
 

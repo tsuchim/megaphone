@@ -55,6 +55,7 @@ button, input {
 	height: 0;
 	visibility: hidden;
 }
+
 /*-----------------
 	ベース
 -----------------*/
@@ -119,6 +120,10 @@ button#swing img {
 	width: 100%;
 	height: auto;
 }
+button#swing:active {
+	margin-top: 2px;
+	margin-left: 2px;
+}
 h2 {
 	padding: 0px 0px 10px 35px;
 	background: none;
@@ -151,10 +156,21 @@ h2 {
 	margin-bottom: 10px;
 }
 .yell_num {
+        position: absolute;
 	color: #666666;
 	margin-bottom: 10px;
-	float: right;
+	right: 10px;
 	margin-right: 3%;
+	z-index: 10;
+}
+div#swing0_meter, div#swing1_meter {
+    position: absolute;
+    height: 20px;
+    margin-top:-2px;
+    width: 1px;
+    background-color:red;
+    right: 20px;
+    z-index: 0;
 }
 .inner_wrapp h3 {
 	color: #4D9618;
@@ -221,6 +237,7 @@ footer {
 	width: 100%;
 	height: 85px;
 	padding-top: 10px;
+	z-index: 999;
 }
 #sns {
 	margin: 0 2% 3% 2%;
@@ -256,6 +273,11 @@ footer {
 }
 div#twt a {
 	font-size: 10px;
+}
+div#widget{
+    text-align:center;
+    width: 162px;
+    margin: 0 auto;
 }
 small {
 	color: #ffffff;
