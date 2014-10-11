@@ -46,6 +46,7 @@ var io = require('socket.io').listen(app);
 io.set('log level', 2);
 // common environment
 var totalSwingMagnitude = 0;
+var totalGrandSwingMagnitude = 0;
 var id2cid = {}; // socket.id を cid (Client ID)に焼き直す [ id : cid ]
 var swings = {}; // 各々の swing [ cid : [ mag, color ] ]
 var grandSwings = {}; // 各々の累計 grandswing [ cid : [ mag ] ]
@@ -137,6 +138,7 @@ setInterval( function () {
       swings[cid]["mag"] *= 0.9;
       // sum for total
       totalSwingMagnitude += swings[cid]["mag"];
+      totalGrandSwingMagnitude += swings[cid]["mag"];
   }
 
   // broadcast
@@ -149,6 +151,7 @@ setInterval( function () {
 	obj["swings"][cid] = { "mag":swings[cid]["mag"], "color":swings[cid]["color"] };
     }
     obj['total_mag'] = totalSwingMagnitude;
+    obj['total_grand_mag'] = totalGrandSwingMagnitude;
 
     io.sockets.emit('push swings', JSON.stringify(obj) );
     console.log('emit push swings of '+Object.keys(swings).length);
