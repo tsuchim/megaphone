@@ -65,8 +65,9 @@ body {
 	font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
 	color: #333333;
 }
-button {
+button, input[type="button"] {
 	color: #333333;
+	cursor: pointer;
 }
 html, body {
 	height: 100%;
@@ -97,8 +98,8 @@ p>img {
 	width: 100%;
 	height: auto;
 }
-#wrapp {
-	padding-bottom: 85px;
+div#wrapp {
+	margin-bottom: 55px;
 }
 .inner_wrapp {
 	margin: 10px;
@@ -111,7 +112,7 @@ button#swing {
 	width: 100%;
 	font-size: 40px;
 	cursor: pointer;
-	margin-bottom: 5%;
+	margin-bottom: 3%;
 	border: none;
 	border-radius: 10px;
 	background: #ff5741;
@@ -227,6 +228,25 @@ input#btn {
 	margin: 5px;
 	padding-top: 5px;
 }
+div#chat_form {
+    display: none;
+    border-radius: 0 0 10px 10px;
+    padding: 10px;
+    margin-bottom: 60px;
+    background: #aaffcc;
+}
+h1#chat_head {
+    cursor: pointer;
+    font-size: 20px;
+    padding-top: 2px;
+    padding-left: 10px;
+    border-radius: 10px 10px 0 0;
+    background: #aaffcc;
+}
+h1#chat_head:hover {
+    margin-left:0px;
+    background: #ccffdd;
+}
 /*フッター*/
 footer {
 	border-top:2px solid #FFFFFF;
@@ -235,41 +255,43 @@ footer {
 	position: fixed;
 	bottom: 0;
 	width: 100%;
-	height: 85px;
+	height: 50px;
 	padding-top: 10px;
 	z-index: 999;
 }
 #sns {
-	margin: 0 2% 3% 2%;
+	// margin: 0 2% 3% 2%;
+       margin: 2px;
 }
 #sns div {
 	width: 49%;
 	float: left;
 }
 #sns div a {
-	height: 40px;
+	height: 28px;
 }
 #sns div a img {
 	height: 100%;
 	width: auto;
 }
+#howtouse {
+	height:28px;
+}
 #howtouse a {
 	display: block;
 	text-align: center;
 	border-radius: 5px;
-	padding: 5px;
 	background: #f9b600;
 	text-decoration: none;
 	color: #ffffff;
 	font-size: 1.4em;
-	font-weight: 600;
+	font-weight: 400;
 }
 #sns div#twt {
 	float: right;
+	height:28px;
 	border-radius: 5px;
-	padding-top: 10px;
 	background-color: #88CCFF;
-	height: 40px;
 }
 div#twt a {
 	font-size: 10px;

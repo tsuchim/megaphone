@@ -15,8 +15,8 @@
 <script type="text/javascript" src="/javascripts/GestureManager.js"></script>
 <script type="text/javascript" src="/javascripts/hammer.min.js"></script>
 <script>
+document.socket = io.connect('http://api.m-ph.org:3000');
 $(function(){
-    document.socket = io.connect('http://api.m-ph.org:3000');
     // var mp = new MegaPhone;
     bubbleManager = $('#canvas').bubbleManager({
         max: 100,
@@ -55,13 +55,21 @@ $(function(){
       $('#swing1_ground_number').html(Math.round(obj.total_grand_mag));
     });
 });
+
+$(document).ready(function(){
+  // チャットフォームの開閉
+  $('h1#chat_head').click(function(){
+    $('div#chat_form').slideToggle('fast');
+    var p = $('h1#chat_head').offset().top;
+    $('html,body').animate({ scrollTop: p }, 'fast');
+  });
+});
+
 </script>
 </head>
 <body id="body">
 <div id="contents">
-  <header>
-
-  </header>
+  <header></header>
   <div id="canvas"></div>
   <div id="wrapp">
     <div class="inner_wrapp">
@@ -71,22 +79,21 @@ $(function(){
         <div id="swing0_wrapper" class="yell cf"><h2>私の応援</h2><div id="swing0_meter"></div><div id="swing0_number" class="yell_num">(接続中...)</div></div>
         <div id="swing1_wrapper" class="yell cf"><h2>みんなの応援</h2><div id="swing1_meter"></div><div id="swing1_number" class="yell_num">(接続中...)</div></div>
         <div id="swing1_ground_wrapper" class="yell cf"><h2>みんなの累計</h2><div id="swing1_ground_number" class="yell_num">(接続中...)</div></div>
-          
-        <form name='chatform' onSubmit="return false;" class="cf msg">
-          <input type="text" name="message" id="message" placeholder="声援を送りましょう!"/><input type="submit" id="btn" value="送信" />
-
-        </form>
       </div>
-      <div id="preset">
-        
-        <div id='presetBox' class="cf"></div>
+      <h1 id="chat_head" title="クリックでチャットフォームを開く">■声援を送る</h1>
+      <div id="chat_form">    
+        <form name='chatform' onSubmit="javascript:return false;" class="cf msg">
+          <input type="text" name="message" id="message" placeholder="声援を送りましょう!"/><input type="submit" id="btn" value="送信" />
+        </form>
+        <div id="preset">
+          <div id='presetBox' class="cf"></div>
+        </div>
       </div>
       <div id="msglist"><div></div></div>
-      
     </div>
   </div>
   <footer><div id="sns" class="cf">
-      <div id="howtouse"><a href="https://tsuchim.github.io/megaphone/howtouse.html"><img src="images/btn_howtouse.gif" width="320" height="90" alt="MegaPhoneの楽しみ方"/></a></div>
+      <div id="howtouse"><a href="https://tsuchim.github.io/megaphone/howtouse.html" target="_blank">つかいかた</a></div>
       <div id="twt">
 <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://m-ph.org" data-text="MegaPhoneでカープ応援中" data-via="mega0phone" data-lang="ja" data-size="large" data-related="mega0phone">ツイート</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>

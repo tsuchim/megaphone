@@ -1,25 +1,7 @@
-if (!String.prototype.encodeHTML) {
-    String.prototype.encodeHTML = function () {
-	return this.replace(/&/g, '&amp;')
-	.replace(/</g, '&lt;')
-	.replace(/>/g, '&gt;')
-	.replace(/"/g, '&quot;')
-        .replace(/'/g, '&apos;');
-  };
-}
-if (!String.prototype.decodeHTML) {
-    String.prototype.decodeHTML = function () {
-	return this.replace(/&apos;/g, "'")
-	.replace(/&quot;/g, '"')
-	.replace(/&gt;/g, '>')
-	.replace(/&lt;/g, '<')
-	.replace(/&amp;/g, '&');
-    };
-}
 
+// var socket = io.connect('http://api.m-ph.org:3000');
 $(function() {
-  var socket = io.connect('http://api.m-ph.org:3000');
-  socket.on('connect', function() {
+  document.socket.on('connect', function() {
     console.log('connected');
   });
 
@@ -28,12 +10,16 @@ $(function() {
     var message = $('#message');
     // console.log(message);
     // push msg command to server
-    socket.emit('send msg', message.val());
+    document.socket.emit('send msg', message.val());
     // unforcus from chat input
     $("#message").val("").blur();
+    // hide chat form
+    $('div#chat_form').slideToggle('fast');
+
+    return false;
   });
   // trigger for receiving msg from server
-  socket.on('push msg', function (msg) {
+  document.socket.on('push msg', function (msg) {
     console.log(msg);
     $('#msglist').prepend($('<div>' + msg.encodeHTML() + '</div>'));
       if( ( $("#msglist").height() ) > $(window).height() ){
@@ -47,20 +33,20 @@ $(function() {
     var magnitude = Math.round(Math.random()*10+10);
     // push magnitude command to server
     var obj = { mag: magnitude, color: 0 }
-    socket.emit('send swing', JSON.stringify(obj) );
+    document.socket.emit('send swing', JSON.stringify(obj) );
     // draw_meter('swing0',magnitude, 'FF8800' );
   });
 
 /*
   // trigger for receiving swings from server
-  socket.on('push swings', function (json) {
+  document.socket.on('push swings', function (json) {
       var obj = JSON.parse(json);
 //    draw_meter('swing1',obj.total_mag);
       console.log( document.bubbleManager );
   });
 */
 
-  socket.on('push swing', function (json) {
+  document.socket.on('push swing', function (json) {
     // console.log(' push swing = '+json);
     var obj = JSON.parse(json);
     draw_meter('swing0',obj.self_mag,obj.self_color);
@@ -97,18 +83,36 @@ $(function() {
     if( 0 < mag ) {
 	var c = -y/m;
 	var obj = { mag: mag, color: c } // mag:magnitude(0-99), color:color parameter(-1 to 1)
-	socket.emit('send swing', JSON.stringify(obj) );
+	document.socket.emit('send swing', JSON.stringify(obj) );
 	// draw_meter('swing0',mag);
     }
   }, true);
 
   /*
-  socket.on('msg updateDB', function(msg){
+  document.socket.on('msg updateDB', function(msg){
     console.log(msg);
   });
   setInterval( function() {
-    socket.emit('get total swing');
+    document.socket.emit('get total swing');
   }, 1000 );
   */
 });
 
+if (!String.prototype.encodeHTML) {
+    String.prototype.encodeHTML = function () {
+	return this.replace(/&/g, '&amp;')
+	.replace(/</g, '&lt;')
+	.replace(/>/g, '&gt;')
+	.replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
+  };
+}
+if (!String.prototype.decodeHTML) {
+    String.prototype.decodeHTML = function () {
+	return this.replace(/&apos;/g, "'")
+	.replace(/&quot;/g, '"')
+	.replace(/&gt;/g, '>')
+	.replace(/&lt;/g, '<')
+	.replace(/&amp;/g, '&');
+    };
+}
