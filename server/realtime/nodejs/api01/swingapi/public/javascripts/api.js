@@ -68,8 +68,9 @@ $(function() {
     $('#swing0_ground_number').html(Math.round(obj.self_grand_mag));
   });
 
-  var id0_mag_max = 0;
-  function draw_meter( id, mag, color ) {
+  // draw meter and digit
+  window.draw_meter = function( id, mag, color ) {
+    var id0_mag_max = 0;
     if( id==0 ) {
       if( id0_mag_max < mag ) {
         id0_mag_max = mag;
@@ -109,5 +110,5 @@ $(function() {
     socket.emit('get total swing');
   }, 1000 );
   */
-})(MegaPhone);
+});
 

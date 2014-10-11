@@ -54,17 +54,6 @@ $(function(){
       draw_meter('swing0',0);
       $('#swing1_ground_number').html(Math.round(obj.total_grand_mag));
     });
-
-  function draw_meter( id, mag, color ) {
-    $('#'+id+'_number').html(Math.round(mag));
-    var sp = Math.sqrt(parseFloat(mag))/100;
-    if( 1 < sp ) sp = 1;
-    if( 0 > sp ) sp = 0;
-    var wd = parseInt( $('#'+id+'_wrapper').width()*sp );
-    if( 0 <= wd ) $('#'+id+'_meter').css('width',wd+'px');
-    if( color ) $('#'+id+'_meter').css('background-color','#'+color);
-  }
-
 });
 </script>
 </head>
@@ -92,7 +81,7 @@ $(function(){
         
         <div id='presetBox' class="cf"></div>
       </div>
-      <div id="msglist"><div>現在新しいUIのテスト中です。</div></div>
+      <div id="msglist"><div></div></div>
       
     </div>
   </div>
