@@ -129,7 +129,7 @@ setInterval( function () {
   totalSwingMagnitude = 0;
   for( cid in swings ) {
       // timeout
-      if( swings[cid]["lasttime"] < parseInt((new Date)/1000)-10 ) {
+      if( swings[cid]["lasttime"] < parseInt((new Date)/1000)-300 ) {
 	  delete swings[cid];
 	  console.log('delete cid='+cid);
 	  continue;
