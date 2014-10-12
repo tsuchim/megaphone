@@ -122,7 +122,6 @@ button#swing img {
 	height: auto;
 }
 button#swing:active {
-	margin-top: 2px;
 	margin-left: 2px;
 }
 h2 {
@@ -200,6 +199,10 @@ input#btn {
 	font-weight:600;
 
 }
+
+div#canvas {
+    // overflow: hidden;
+}
 #preset {
 	margin: 15px 0;
 }
@@ -276,6 +279,7 @@ footer {
 }
 #howtouse {
 	height:28px;
+	line-height:28px;
 }
 #howtouse a {
 	display: block;

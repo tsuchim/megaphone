@@ -61,6 +61,7 @@ $(document).ready(function(){
   // チャットフォームの開閉
   $('h1#chat_head').click(function(){
     $('div#chat_form').slideToggle('fast');
+    // $('#message').focus();
     var p = $('h1#chat_head').offset().top;
     $('html,body').animate({ scrollTop: p }, 'fast');
   });
